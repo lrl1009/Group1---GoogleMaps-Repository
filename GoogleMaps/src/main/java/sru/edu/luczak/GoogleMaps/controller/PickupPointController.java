@@ -28,23 +28,13 @@ public class PickupPointController extends PickupPoint {
 		DatabaseMetaData dbm = con.getMetaData();
 		// check if "pickupPoint" table is in the database
 		ResultSet tables = dbm.getTables(null, null, "pickup_point", null);
-		
-/*		
-		if(tables.next() == false)
-		{
-			//If table does not exist in the database create it.
-			stmt.execute(sql);
-		} else {
-			//Otherwise just print out that it already exists
-			//eventually this will also update the database instead of importing copies
-			System.out.println("Table already exists");
-		}
-*/	    
+		   
 	    
 	    //Excel
-	    String excelFilePath = "C:\\Users\\Luke Laptop\\OneDrive\\Desktop\\School_Stuff\\SRU_FinalYear\\CPSC-488\\Project\\PickupPointInfo.xlsx";
-	    FileInputStream inputStream = new FileInputStream(excelFilePath);
-	    XSSFWorkbook workbook=new XSSFWorkbook(excelFilePath);
+		ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+		//Look into the resource folder for PickupPoitInfo so we don't need to trace the directory every time.
+		InputStream is = classloader.getResourceAsStream("PickupPointInfo.xlsx");
+		XSSFWorkbook workbook=new XSSFWorkbook(is);
 	    XSSFSheet sheet = workbook.getSheet("Sheet1");
 	    
 	    int rows=sheet.getLastRowNum();
@@ -66,7 +56,7 @@ public class PickupPointController extends PickupPoint {
 	    }
 	    
 	    workbook.close();
-	    inputStream.close();
+	    is.close();
 	    con.close();
 	    
 	    System.out.println("Done");	

@@ -70,11 +70,11 @@ public class PickupPoint {
 	public void setLatitude(float latitude) {
 		this.latitude = latitude;
 	}
-	
+/*	
 	public void insertDatabase() {
 		
 	}
-
+*/
 }
 
 // JPA (Java - based database)
