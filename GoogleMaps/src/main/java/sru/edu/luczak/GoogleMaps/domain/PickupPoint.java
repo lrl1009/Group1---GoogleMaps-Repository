@@ -34,6 +34,7 @@ public class PickupPoint {
 		this.pickupPointName = pickupPointName;
 		this.roadName = roadName;
 		this.studentCount = studentCount;
+		//System.out.println(id);
 	}
 	
 	public int getId() {

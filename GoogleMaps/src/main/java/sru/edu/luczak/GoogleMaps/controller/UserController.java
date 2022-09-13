@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import sru.edu.luczak.GoogleMaps.domain.Users;
+import sru.edu.luczak.GoogleMaps.repository.PickupPointRepository;
 import sru.edu.luczak.GoogleMaps.repository.UserRepository;
 
 /*
@@ -18,8 +19,48 @@ import sru.edu.luczak.GoogleMaps.repository.UserRepository;
 
 @Controller
 public class UserController {
+	
+	private PickupPointRepository repo;
+	
+	public UserController(PickupPointRepository repo) {
+		this.repo=repo;
+	}
+	//This method calls the select-school HTML file to guide the user through UI
+	@RequestMapping({"/"})
+	public String requestData() {
+		return "select-school";
+	}
+	
+	//This method creates attribute pickuppoints and digs up the repo info
+	@RequestMapping({"/pickupPoints"})
+	public String showData(Model model) {
+		model.addAttribute("pickuppoints", repo.findAll());
+		return "view-school"; //view-school prints the database data
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	//set up a UserRepositoty variable
-	private UserRepository userRepository;
+	/*private UserRepository userRepository;
     
 	//create an UserRepository instance - instantiation (new) is done by Spring
     public UserController(UserRepository userRepository) {
@@ -81,6 +122,6 @@ public class UserController {
           .orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
         userRepository.delete(user);
         return "redirect:/index";
-    }
+    }*/
 }
 

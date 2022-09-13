@@ -32,7 +32,7 @@ public class GoogleMapsApplication implements CommandLineRunner {
 	        SpringApplication.run(GoogleMapsApplication.class, args);
 	    }
 	 
-	    @Override
+	    @Override 
 	    public void run(String... args) throws Exception
 	    {
 	    	ClassLoader classloader = Thread.currentThread().getContextClassLoader();
@@ -42,7 +42,7 @@ public class GoogleMapsApplication implements CommandLineRunner {
 		    XSSFSheet sheet = workbook.getSheet("Sheet1");
 		    
 		    int rows=sheet.getLastRowNum();
-		    
+		    //for loop gathers all data from spreadsheet rows
 	    	for(int r=1; r<=rows;r++)
 	        {
 	    		
