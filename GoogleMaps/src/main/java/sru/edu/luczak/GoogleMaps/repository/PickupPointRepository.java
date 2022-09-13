@@ -1,6 +1,6 @@
 package sru.edu.luczak.GoogleMaps.repository;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import sru.edu.luczak.GoogleMaps.domain.PickupPoint;
 
@@ -13,4 +13,4 @@ import sru.edu.luczak.GoogleMaps.domain.PickupPoint;
  * Extending the CrudRepository interface provides the application with basic CRUD functionality on User objects.
  */
 
-public interface PickupPointRepository extends CrudRepository<PickupPoint, Long> {}
+public interface PickupPointRepository extends JpaRepository<PickupPoint, String> {}

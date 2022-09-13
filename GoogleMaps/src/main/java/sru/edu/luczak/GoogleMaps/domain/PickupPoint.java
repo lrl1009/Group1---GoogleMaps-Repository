@@ -8,7 +8,6 @@ import javax.persistence.Entity;
 
 @Entity
 public class PickupPoint {
-//From what I understand the domain is where the table in MySQL is created and the columns are named
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private String id;
@@ -22,7 +21,21 @@ public class PickupPoint {
 	private float longitude;
 	@NonNull
 	private float latitude;
-
+	
+	PickupPoint(){
+		
+	}
+	
+	public PickupPoint(String id, float latitude, float longitude, String pickupPointName, String roadName, int studentCount) {
+//		super();
+		this.id= id;
+		this.roadName = roadName;
+		this.pickupPointName = pickupPointName;
+		this.studentCount = studentCount;
+		this.longitude = longitude;
+		this.latitude = latitude;
+	}
+	
 	public String getId() {
 		return id;
 	}
@@ -71,10 +84,10 @@ public class PickupPoint {
 		this.latitude = latitude;
 	}
 /*	
-	public void insertDatabase() {
-		
-	}
-*/
+	public String toString(String id, float latitude, float longitude, String pickupPointName, String roadName, int studentCount) {
+		  return id + latitude + longitude + roadName + pickupPointName + studentCount;
+	  }
+	  */
 }
 
 // JPA (Java - based database)

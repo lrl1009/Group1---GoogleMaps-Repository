@@ -13,27 +13,26 @@ import sru.edu.luczak.GoogleMaps.domain.PickupPoint;
 
 //import java.util.Date;     //Use if date is needed
 
-public class PickupPointController extends PickupPoint { 	
+public class PickupPointController { 	
  
 	public static void main(String[] args) throws SQLException, IOException {
 		
 		//Connect to the Database
 		Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pickuppoints?useSSL=false&serverTimezone=UTC", "root", "root");
 		Statement stmt = con.createStatement();
-		
-		//Create a new table in the database
-		//String sql = "create table pickupPoint (Id varchar(6), Student_Count int, Pickup_Point varchar(50), Road_Name varchar(50), Longitude decimal(20,0), Latitude decimal(20, 0))";
 		String sql;
 		
-		DatabaseMetaData dbm = con.getMetaData();
+		
 		// check if "pickupPoint" table is in the database
+		DatabaseMetaData dbm = con.getMetaData();
 		ResultSet tables = dbm.getTables(null, null, "pickup_point", null);
 		   
 	    
 	    //Excel
-		ClassLoader classloader = Thread.currentThread().getContextClassLoader();
 		//Look into the resource folder for PickupPoitInfo so we don't need to trace the directory every time.
+		ClassLoader classloader = Thread.currentThread().getContextClassLoader();
 		InputStream is = classloader.getResourceAsStream("PickupPointInfo.xlsx");
+		
 		XSSFWorkbook workbook=new XSSFWorkbook(is);
 	    XSSFSheet sheet = workbook.getSheet("Sheet1");
 	    
