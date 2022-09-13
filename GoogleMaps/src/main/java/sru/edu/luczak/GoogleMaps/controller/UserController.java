@@ -16,6 +16,7 @@ import sru.edu.luczak.GoogleMaps.repository.UserRepository;
  * class is used to handling GET and POST HTTP requests. The requests are mapped to methods in the UserController.
  */
 
+/*
 @Controller
 public class UserController {
 	//set up a UserRepositoty variable
@@ -82,5 +83,6 @@ public class UserController {
         userRepository.delete(user);
         return "redirect:/index";
     }
+    
 }
-
+*/

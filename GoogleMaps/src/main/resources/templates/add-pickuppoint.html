@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Add User</title>
+</head>
+<body>
+<form action="#" th:action="@{/addpickup}" th:object="${PickupPoint}" method="post">
+
+    <label for="pickupname">Pickup Point Name</label>
+    <input type="text" th:field="*{pickupname}" id="pickupname" placeholder="pickup Point Name">
+    <span th:if="${#fields.hasErrors('pickupname')}" th:errors="*{pickupname}"></span>
+    
+    <label for="roadname">Road Name</label>
+    <input type="text" th:field="*{roadname}" id="roadname" placeholder="RoadName">
+    <span th:if="${#fields.hasErrors('roadName')}" th:errors="*{roadname}"></span>
+    
+    <label for="studentcount">Student Count</label>
+    <input type="text" th:field="*{studentcount}" id="studentcount" placeholder="StudentCount">
+    <span th:if="${#fields.hasErrors('studentcount')}" th:errors="*{studentcount}"></span>
+    
+    <label for="longitude">Longitude</label>
+    <input type="text" th:field="*{longitude}" id="longitude" placeholder="Longitude">
+    <span th:if="${#fields.hasErrors('longitude')}" th:errors="*{longitude}"></span>
+    
+    <label for="latitude">Latitude</label>
+    <input type="text" th:field="*{latitude}" id="latitude" placeholder="Latitude">
+    <span th:if="${#fields.hasErrors('latitude')}" th:errors="*{latitude}"></span>
+    
+    <label for="studentcount">Student Count</label>
+    <input type="text" th:field="*{studentcount}" id="studentcount" placeholder="StudentCount">
+    <span th:if="${#fields.hasErrors('studentcount')}" th:errors="*{studentcount}"></span>
+    
+    <input type="submit" value="Add Pickup Point">   
+</form>
+</body>
+</html>
