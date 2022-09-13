@@ -10,7 +10,7 @@ import javax.persistence.Entity;
 public class PickupPoint {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private String id;
+	private int id;
 	@NonNull
 	private int studentCount;
 	@NonNull
@@ -26,21 +26,21 @@ public class PickupPoint {
 		
 	}
 	
-	public PickupPoint(String id, float latitude, float longitude, String pickupPointName, String roadName, int studentCount) {
+	public PickupPoint(int id, float latitude, float longitude, String pickupPointName, String roadName, int studentCount) {
 //		super();
 		this.id= id;
-		this.roadName = roadName;
-		this.pickupPointName = pickupPointName;
-		this.studentCount = studentCount;
-		this.longitude = longitude;
 		this.latitude = latitude;
+		this.longitude = longitude;
+		this.pickupPointName = pickupPointName;
+		this.roadName = roadName;
+		this.studentCount = studentCount;
 	}
 	
-	public String getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -83,11 +83,10 @@ public class PickupPoint {
 	public void setLatitude(float latitude) {
 		this.latitude = latitude;
 	}
-/*	
-	public String toString(String id, float latitude, float longitude, String pickupPointName, String roadName, int studentCount) {
+	
+	public String toString(int id, float latitude, float longitude, String pickupPointName, String roadName, int studentCount) {
 		  return id + latitude + longitude + roadName + pickupPointName + studentCount;
 	  }
-	  */
 }
 
 // JPA (Java - based database)

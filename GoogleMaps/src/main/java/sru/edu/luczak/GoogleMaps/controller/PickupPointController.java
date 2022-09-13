@@ -14,7 +14,7 @@ import sru.edu.luczak.GoogleMaps.domain.PickupPoint;
 //import java.util.Date;     //Use if date is needed
 
 public class PickupPointController { 	
- 
+ /*
 	public static void main(String[] args) throws SQLException, IOException {
 		
 		//Connect to the Database
@@ -60,4 +60,5 @@ public class PickupPointController {
 	    
 	    System.out.println("Done");	
     } 
+*/    
 }

@@ -42,21 +42,23 @@ public class GoogleMapsApplication implements CommandLineRunner {
 		    XSSFSheet sheet = workbook.getSheet("Sheet1");
 		    
 		    int rows=sheet.getLastRowNum();
+		    
 	    	for(int r=1; r<=rows;r++)
 	        {
-	        	XSSFRow row=sheet.getRow(r);
-	        	String id = row.getCell(0).getStringCellValue();
-	        	int studentCount = (int) row.getCell(1).getNumericCellValue();
-	        	String pickupPointName = row.getCell(2).getStringCellValue();
-	        	String roadName = row.getCell(3).getStringCellValue();
-	        	long longitude = (long) row.getCell(4).getNumericCellValue();
-	        	long latitude = (long) row.getCell(5).getNumericCellValue();
-	        	
-	        	//System.out.println(studentCount);
+	    		
+	    		XSSFRow row=sheet.getRow(r);
+		    	int id = (int) row.getCell(0).getNumericCellValue();
+		    	int studentCount = (int) row.getCell(1).getNumericCellValue();
+		    	String pickupPointName = row.getCell(2).getStringCellValue();
+		    	String roadName = row.getCell(3).getStringCellValue();
+		    	float longitude = (float) row.getCell(4).getNumericCellValue();
+		    	float latitude =  (float) row.getCell(5).getNumericCellValue();
+
 	        	PickupPoint pickup = new PickupPoint(id, latitude, longitude, pickupPointName, roadName, studentCount);
 	        	repo.save(pickup);
 	        	
-	        }  
+	        }
+	        
 	    }
 }		
 /*		
