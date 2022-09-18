@@ -27,7 +27,6 @@ public class PickupPoint {
 	}
 	
 	public PickupPoint(int id, float latitude, float longitude, String pickupPointName, String roadName, int studentCount) {
-//		super();
 		this.id= id;
 		this.latitude = latitude;
 		this.longitude = longitude;

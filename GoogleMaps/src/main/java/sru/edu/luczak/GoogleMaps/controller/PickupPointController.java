@@ -1,64 +1,116 @@
 package sru.edu.luczak.GoogleMaps.controller;
 
-import java.io.*;
-import java.sql.*;
-import java.util.*;
- 
-import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.xssf.usermodel.*;
-import org.springframework.boot.SpringApplication;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import sru.edu.luczak.GoogleMaps.domain.PickupPoint;
+import sru.edu.luczak.GoogleMaps.repository.PickupPointRepository;
 
 
-//import java.util.Date;     //Use if date is needed
-
+@Controller
 public class PickupPointController { 	
- /*
-	public static void main(String[] args) throws SQLException, IOException {
+
+	//set up a UserRepositoty variable
+	private PickupPointRepository pickupPointRepository;
+	
+	//create an UserRepository instance - instantiation (new) is done by Spring
+    public PickupPointController(PickupPointRepository pickupPointRepository) {
+		this.pickupPointRepository = pickupPointRepository;
+	}
+	
+	//This method calls the select-school HTML file to guide the user through UI
+		@RequestMapping({"/"})
+		public String requestData() {
+			return "select-school";
+		}
 		
-		//Connect to the Database
-		Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pickuppoints?useSSL=false&serverTimezone=UTC", "root", "root");
-		Statement stmt = con.createStatement();
-		String sql;
+		//This method creates attribute pickuppoints and digs up the repo info
+		@RequestMapping({"/pickupPoints"})
+		public String showData(Model model) {
+			model.addAttribute("pickuppoints", pickupPointRepository.findAll());
+			return "view-school"; //view-school prints the database data
+		}
+/*		
+		//using CRUD to create a new pickuppoint
+		@RequestMapping("/createpickup")
+		public String showNewPickupPage(Model model) {
+			PickupPoint pickupPoint = new PickupPoint();
+		    model.addAttribute("pickuppoints", pickupPoint);
+		    model.addAttribute("pickuppoints", pickupPointRepository.findAll());
+		    return "add-pickuppoints";
+		}
 		
-		
-		// check if "pickupPoint" table is in the database
-		DatabaseMetaData dbm = con.getMetaData();
-		ResultSet tables = dbm.getTables(null, null, "pickup_point", null);
-		   
-	    
-	    //Excel
-		//Look into the resource folder for PickupPoitInfo so we don't need to trace the directory every time.
-		ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-		InputStream is = classloader.getResourceAsStream("PickupPointInfo.xlsx");
-		
-		XSSFWorkbook workbook=new XSSFWorkbook(is);
-	    XSSFSheet sheet = workbook.getSheet("Sheet1");
-	    
-	    int rows=sheet.getLastRowNum();
-	    
-	    //Add data from the excel sheet into the database
-	    for(int r=1; r<=rows;r++)
-	    {
-	    	XSSFRow row=sheet.getRow(r);
-	    	String id = row.getCell(0).getStringCellValue();
-	    	int studentCount = (int) row.getCell(1).getNumericCellValue();
-	    	String pickupPointName = row.getCell(2).getStringCellValue();
-	    	String roadName = row.getCell(3).getStringCellValue();
-	    	float longitude = (float) row.getCell(4).getNumericCellValue();
-	    	float latitude =  (float) row.getCell(5).getNumericCellValue();
-	    	
-	    	sql="INSERT INTO pickup_point values('"+id+"', '"+latitude+"', '"+longitude+"', '"+pickupPointName+"', '"+roadName+"', '"+studentCount+"')";
-	    	stmt.execute(sql);
-	    	stmt.execute("commit");
-	    }
-	    
-	    workbook.close();
-	    is.close();
-	    con.close();
-	    
-	    System.out.println("Done");	
-    } 
-*/    
+		@RequestMapping(value = "/save", method = RequestMethod.POST)
+		public String saveProduct(@ModelAttribute("pickupPoint") PickupPoint pickupPoint) {
+			pickupPointRepository.save(pickupPoint);
+		    return "redirect:/index";
+		}
+*/		
+
+
+    //Mapping for the /signup URL - calls the add-user HTML, to add a user
+	@RequestMapping({"/createpickup"})
+    public String showCreatePickupForm(PickupPoint pickupPoint) {
+        return "add-pickuppoints";
+    }
+    
+	//Mapping for the /signup URL - to add a user
+    @RequestMapping({"/addpickup"})
+    public String addPickupPoint(@Validated PickupPoint pickupPoint, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            return "add-pickuppoints";
+        }
+        pickupPointRepository.save(pickupPoint);
+        return "redirect:/";
+    }
+  
+  
+    //Mapping for the /edit/user URL to edit a user 
+    @GetMapping("/edit/{id}")
+    public String showUpdateForm(@PathVariable("id") int id, Model model) {
+    	PickupPoint pickupPoint = pickupPointRepository.findById(id)
+          .orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
+        
+        model.addAttribute("Pickup Point", pickupPoint);
+        return "update-pickuppoint";
+    }
+    
+    //Mapping for the /update/id URL to update a user 
+    @PostMapping("/update/{id}")
+    public String updatePickupPoint(@PathVariable("id") int id, @Validated PickupPoint pickupPoint, 
+      BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            pickupPoint.setId(id);
+            return "update-pickuppoint";
+        }
+            
+        pickupPointRepository.save(pickupPoint);
+        return "redirect:/";
+    }
+    
+    //Mapping for the /delete/id URL to delete a user     
+    @GetMapping("/delete/{id}")
+    public String deletePickupPoint(@PathVariable("id") int id, Model model) {
+    	PickupPoint pickupPoint = pickupPointRepository.findById(id)
+          .orElseThrow(() -> new IllegalArgumentException("Invalid pickup Id:" + id));
+        pickupPointRepository.delete(pickupPoint);
+        return "redirect:/";
+    }
+    
+    /*   
+    //Mapping for the /index URL when initiated through Tomcat
+    @RequestMapping({"/index"})
+    public String showPickupPointList(Model model) {
+        model.addAttribute("users", pickupPointRepository.findAll());
+        return "index";
+    }
+*/
 }
