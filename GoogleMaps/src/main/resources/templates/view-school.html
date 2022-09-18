@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang = "en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Showing PickupPoint Information</title>
+</head>
+
+<body>
+<div>
+<p><a href = "/createpickup">Add Pickup Points</a></p>
+<table>
+	<thead>
+		<tr>
+				<th>Id</th>
+				<th>Latitude</th>
+				<th>Longitude</th>
+				<th>Pickup Point Name</th>
+				<th>Road Name</th>
+				<th>Student Count</th>
+		</tr>
+		</thead>
+		<tbody>
+			 <tr th:each="pickuppoint : ${pickuppoints}">
+
+			   <td th:text="${pickuppoint.id}"></td> 
+			   <td th:text="${pickuppoint.latitude}"></td> 
+			   <td th:text="${pickuppoint.longitude}"></td> 
+			   <td th:text="${pickuppoint.pickupPointName}"></td>
+			   <td th:text="${pickuppoint.roadName}"></td> 
+			   <td th:text="${pickuppoint.studentCount}"></td> 
+		</tr>
+		
+		</tbody>
+		</table>
+		</div>
+
+</body>
+</html>

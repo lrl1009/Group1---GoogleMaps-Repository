@@ -5,9 +5,12 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
 import sru.edu.luczak.GoogleMaps.domain.PickupPoint;
 import sru.edu.luczak.GoogleMaps.repository.PickupPointRepository;
 
@@ -17,36 +20,58 @@ public class PickupPointController {
 
 	//set up a UserRepositoty variable
 	private PickupPointRepository pickupPointRepository;
-    
+	
 	//create an UserRepository instance - instantiation (new) is done by Spring
     public PickupPointController(PickupPointRepository pickupPointRepository) {
 		this.pickupPointRepository = pickupPointRepository;
 	}
-    
-    //Mapping for the /index URL when initiated through Tomcat
-    @RequestMapping({"/index"})
-    public String showPickupPointList(Model model) {
-        model.addAttribute("users", pickupPointRepository.findAll());
-        return "index";
-    }
+	
+	//This method calls the select-school HTML file to guide the user through UI
+		@RequestMapping({"/"})
+		public String requestData() {
+			return "select-school";
+		}
+		
+		//This method creates attribute pickuppoints and digs up the repo info
+		@RequestMapping({"/pickupPoints"})
+		public String showData(Model model) {
+			model.addAttribute("pickuppoints", pickupPointRepository.findAll());
+			return "view-school"; //view-school prints the database data
+		}
+/*		
+		//using CRUD to create a new pickuppoint
+		@RequestMapping("/createpickup")
+		public String showNewPickupPage(Model model) {
+			PickupPoint pickupPoint = new PickupPoint();
+		    model.addAttribute("pickuppoints", pickupPoint);
+		    model.addAttribute("pickuppoints", pickupPointRepository.findAll());
+		    return "add-pickuppoints";
+		}
+		
+		@RequestMapping(value = "/save", method = RequestMethod.POST)
+		public String saveProduct(@ModelAttribute("pickupPoint") PickupPoint pickupPoint) {
+			pickupPointRepository.save(pickupPoint);
+		    return "redirect:/index";
+		}
+*/		
+
 
     //Mapping for the /signup URL - calls the add-user HTML, to add a user
-	@RequestMapping({"/signup"})
-    public String showSignUpForm(PickupPoint pickupPoint) {
-        return "add-pickup";
+	@RequestMapping({"/createpickup"})
+    public String showCreatePickupForm(PickupPoint pickupPoint) {
+        return "add-pickuppoints";
     }
     
 	//Mapping for the /signup URL - to add a user
     @RequestMapping({"/addpickup"})
     public String addPickupPoint(@Validated PickupPoint pickupPoint, BindingResult result, Model model) {
         if (result.hasErrors()) {
-            return "add-pickup";
+            return "add-pickuppoints";
         }
-        
         pickupPointRepository.save(pickupPoint);
-        return "redirect:/index";
+        return "redirect:/";
     }
-    
+  
   
     //Mapping for the /edit/user URL to edit a user 
     @GetMapping("/edit/{id}")
@@ -55,7 +80,7 @@ public class PickupPointController {
           .orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
         
         model.addAttribute("Pickup Point", pickupPoint);
-        return "update-pickup";
+        return "update-pickuppoint";
     }
     
     //Mapping for the /update/id URL to update a user 
@@ -64,11 +89,11 @@ public class PickupPointController {
       BindingResult result, Model model) {
         if (result.hasErrors()) {
             pickupPoint.setId(id);
-            return "update-pickup";
+            return "update-pickuppoint";
         }
             
         pickupPointRepository.save(pickupPoint);
-        return "redirect:/index";
+        return "redirect:/";
     }
     
     //Mapping for the /delete/id URL to delete a user     
@@ -77,6 +102,15 @@ public class PickupPointController {
     	PickupPoint pickupPoint = pickupPointRepository.findById(id)
           .orElseThrow(() -> new IllegalArgumentException("Invalid pickup Id:" + id));
         pickupPointRepository.delete(pickupPoint);
-        return "redirect:/index";
+        return "redirect:/";
     }
+    
+    /*   
+    //Mapping for the /index URL when initiated through Tomcat
+    @RequestMapping({"/index"})
+    public String showPickupPointList(Model model) {
+        model.addAttribute("users", pickupPointRepository.findAll());
+        return "index";
+    }
+*/
 }
