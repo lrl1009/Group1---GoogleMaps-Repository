@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Add User</title>
+</head>
+<body>
+<div th:switch="${pickuppoints}">
+    <h2 th:case="null">No pickups yet!</h2>
+        <div th:case="*">
+            <h2>Pickups</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Id</th>
+						<th>Latitude</th>
+						<th>Longitude</th>
+						<th>Pickup Point Name</th>
+						<th>Road Name</th>
+						<th>Student Count</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <tr th:each="pickuppoint : ${pickuppoints}">
+			   <td th:text="${pickuppoint.id}"></td> 
+			   <td th:text="${pickuppoint.latitude}"></td> 
+			   <td th:text="${pickuppoint.longitude}"></td> 
+			   <td th:text="${pickuppoint.pickupPointName}"></td>
+			   <td th:text="${pickuppoint.roadName}"></td> 
+			   <td th:text="${pickuppoint.studentCount}"></td>
+			   
+			   <td><a th:href="@{/editpickup/{id}(id=${pickuppoint.id})}">Edit</a></td>
+               <td><a th:href="@{/deletepickup/{id}(id=${pickuppoint.id})}">Delete</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>      
+<p><a href = "/createpickup">Add Pickup Points</a></p>
+</div>
+</body>
+</html>

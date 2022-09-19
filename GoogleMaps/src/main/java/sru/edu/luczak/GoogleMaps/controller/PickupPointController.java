@@ -8,8 +8,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import sru.edu.luczak.GoogleMaps.domain.PickupPoint;
 import sru.edu.luczak.GoogleMaps.repository.PickupPointRepository;
@@ -39,6 +42,47 @@ public class PickupPointController {
 			return "view-school"; //view-school prints the database data
 		}
 /*		
+		//Mapping for the /signup URL - calls the add-user HTML, to add a user
+		@PostMapping(path="/createpickup") // Map ONLY POST Requests
+		  public @ResponseBody String showPickupForm (@RequestParam int id, @RequestParam float latitude, 
+				  @RequestParam float longitude, @RequestParam String pickupPointName, 
+				  @RequestParam String roadName, @RequestParam int studentCount) {
+		    // @ResponseBody means the returned String is the response, not a view name
+		    // @RequestParam means it is a parameter from the GET or POST request
+
+			//PickupPoint pickupPoint = new PickupPoint();
+		    //User n = new User(12, "Dave");
+		    //n.setName(name);
+		    //n.setEmail(email);
+		    //pickupPointRepository.save(pickupPoint);
+		    return "add-pickuppoints";
+		  }
+	    
+		//Mapping for the /signup URL - to add a user
+	    @RequestMapping({"/addpickup"})
+	    public String addPickupPoint(@Validated PickupPoint pickupPoint, BindingResult result, Model model) {
+	        if (result.hasErrors()) {
+	            return "add-pickuppoints";
+	        }
+	        pickupPointRepository.save(pickupPoint);
+	        return "redirect:/";
+	    }
+*/	    
+/*
+		@RequestMapping("/new")
+		public String showNewPickupPage(Model model) {
+			PickupPoint pickupPoint = new PickupPoint();
+		    model.addAttribute("pickupPoint", pickupPoint);
+		    return "add-pickuppoints";
+		}
+		
+		@RequestMapping(value = "/save", method = RequestMethod.POST)
+		public String saveProduct(@ModelAttribute("pickupPoint") PickupPoint pickupPoint) {
+			pickupPointRepository.save(pickupPoint);
+		    return "redirect:/";
+		}
+*/		
+		/*
 		//using CRUD to create a new pickuppoint
 		@RequestMapping("/createpickup")
 		public String showNewPickupPage(Model model) {
@@ -74,17 +118,16 @@ public class PickupPointController {
   
   
     //Mapping for the /edit/user URL to edit a user 
-    @GetMapping("/edit/{id}")
-    public String showUpdateForm(@PathVariable("id") int id, Model model) {
+    @GetMapping("/editpickup/{id}")
+    public String showPickupUpdateForm(@PathVariable("id") int id, Model model) {
     	PickupPoint pickupPoint = pickupPointRepository.findById(id)
           .orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
-        
-        model.addAttribute("Pickup Point", pickupPoint);
+        model.addAttribute("pickuppoint", pickupPoint);
         return "update-pickuppoint";
     }
     
     //Mapping for the /update/id URL to update a user 
-    @PostMapping("/update/{id}")
+    @PostMapping("/updatepickup/{id}")
     public String updatePickupPoint(@PathVariable("id") int id, @Validated PickupPoint pickupPoint, 
       BindingResult result, Model model) {
         if (result.hasErrors()) {
@@ -97,7 +140,7 @@ public class PickupPointController {
     }
     
     //Mapping for the /delete/id URL to delete a user     
-    @GetMapping("/delete/{id}")
+    @GetMapping("/deletepickup/{id}")
     public String deletePickupPoint(@PathVariable("id") int id, Model model) {
     	PickupPoint pickupPoint = pickupPointRepository.findById(id)
           .orElseThrow(() -> new IllegalArgumentException("Invalid pickup Id:" + id));
