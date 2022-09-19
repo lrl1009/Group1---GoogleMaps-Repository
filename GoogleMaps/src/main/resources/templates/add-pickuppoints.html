@@ -5,28 +5,34 @@
 <title>Add User</title>
 </head>
 <body>
-<form action="#" th:action="@{/addpickup}" th:object="${pickuppoints}" method="post">
-    
-    <label for="pickupPointName">Pickup Point Name</label>
-    <input type="text" th:field="*{pickupPointName}" id="pickupPointName" placeholder="PickupPointName">
-    <span th:if="${#fields.hasErrors('pickupPointName')}" th:errors="*{pickupPointName}"></span>
-    
-    <label for="roadName">Road Name</label>
-    <input type="text" th:field="*{roadName}" id="roadName" placeholder="RoadName">
-    <span th:if="${#fields.hasErrors('roadName')}" th:errors="*{roadName}"></span>
-    
-    <label for="longitude">Longitude</label>
-    <input type="text" th:field="*{longitude}" id="longitude" placeholder="Longitude">
-    <span th:if="${#fields.hasErrors('longitude')}" th:errors="*{longitude}"></span>
-    
-    <label for="latitude">Latitude</label>
-    <input type="text" th:field="*{latitude}" id="latitude" placeholder="Latitude">
-    <span th:if="${#fields.hasErrors('latitude')}" th:errors="*{latitude}"></span>
-    
-    <label for="studentCount">Student Count</label>
-    <input type="text" th:field="*{studentCount}" id="studentCount" placeholder="StudentCount">
-    <span th:if="${#fields.hasErrors('studentCount')}" th:errors="*{studentCount}"></span>
-    
+<form action="#" th:action="@{/addpickup}" th:object="${pickupPoint}" method="post">
+<table>
+<tr>               
+    <td><label for="pickupPointName">Pickup Point Name</label></td>
+    <td><input type="text" th:field="*{pickupPointName}" id="pickupPointName" placeholder="PickupPointName"></td>
+    <td><span th:if="${#fields.hasErrors('pickupPointName')}" th:errors="*{pickupPointName}"></span></td>
+</tr>    
+<tr>
+    <td><label for="roadName">Road Name</label></td>
+    <td><input type="text" th:field="*{roadName}" id="roadName" placeholder="RoadName"></td>
+    <td><span th:if="${#fields.hasErrors('roadName')}" th:errors="*{roadName}"></span></td>
+</tr>
+<tr>    
+    <td><label for="longitude">Longitude</label></td>
+    <td><input type="text" th:field="*{longitude}" id="longitude" placeholder="Longitude"></td>
+    <td><span th:if="${#fields.hasErrors('longitude')}" th:errors="*{longitude}"></span></td>
+</tr>
+<tr>    
+    <td><label for="latitude">Latitude</label></td>
+    <td><input type="text" th:field="*{latitude}" id="latitude" placeholder="Latitude"></td>
+    <td><span th:if="${#fields.hasErrors('latitude')}" th:errors="*{latitude}"></span></td>
+</tr>
+<tr>    
+    <td><label for="studentCount">Student Count</label></td>
+    <td><input type="text" th:field="*{studentCount}" id="studentCount" placeholder="StudentCount"></td>
+    <td><span th:if="${#fields.hasErrors('studentCount')}" th:errors="*{studentCount}"></span></td>
+ </tr>
+</table>    
     <input type="submit" value="Add Pickup Point">   
 </form>
 </body>

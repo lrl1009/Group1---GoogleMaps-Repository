@@ -21,8 +21,8 @@ public class PickupPoint {
 	private float longitude;
 	@NonNull
 	private float latitude;
-	
-	PickupPoint(){
+/*	
+	public PickupPoint(){
 		
 	}
 	
@@ -34,7 +34,17 @@ public class PickupPoint {
 		this.roadName = roadName;
 		this.studentCount = studentCount;
 	}
+*/
 	
+	public void insertData(int id, float latitude, float longitude, String pickupPointName, String roadName, int studentCount) {
+		this.id= id;
+		this.latitude = latitude;
+		this.longitude = longitude;
+		this.pickupPointName = pickupPointName;
+		this.roadName = roadName;
+		this.studentCount = studentCount;
+	}
+
 	public int getId() {
 		return id;
 	}
@@ -82,10 +92,11 @@ public class PickupPoint {
 	public void setLatitude(float latitude) {
 		this.latitude = latitude;
 	}
-	
+/*	
 	public String toString(int id, float latitude, float longitude, String pickupPointName, String roadName, int studentCount) {
 		  return id + latitude + longitude + roadName + pickupPointName + studentCount;
 	  }
+	  */
 }
 
 // JPA (Java - based database)

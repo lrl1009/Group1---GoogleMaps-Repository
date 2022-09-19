@@ -2,14 +2,15 @@ package sru.edu.luczak.GoogleMaps;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
+import java.util.ArrayList;
+import java.util.List;
+import java.io.InputStream;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -22,10 +23,12 @@ import sru.edu.luczak.GoogleMaps.domain.PickupPoint;
 import sru.edu.luczak.GoogleMaps.repository.PickupPointRepository;
 
 
+
 @SpringBootApplication
 public class GoogleMapsApplication implements CommandLineRunner {
 
 		@Autowired PickupPointRepository repo;
+
 		
 	    public static void main(String[] args)
 	    {
@@ -42,10 +45,12 @@ public class GoogleMapsApplication implements CommandLineRunner {
 		    XSSFSheet sheet = workbook.getSheet("Sheet1");
 		    
 		    int rows=sheet.getLastRowNum();
-		    
+		   
+
+		
 	    	for(int r=1; r<=rows;r++)
 	        {
-	    		
+    		
 	    		XSSFRow row=sheet.getRow(r);
 		    	int id = (int) row.getCell(0).getNumericCellValue();
 		    	int studentCount = (int) row.getCell(1).getNumericCellValue();
@@ -54,9 +59,10 @@ public class GoogleMapsApplication implements CommandLineRunner {
 		    	float longitude = (float) row.getCell(4).getNumericCellValue();
 		    	float latitude =  (float) row.getCell(5).getNumericCellValue();
 
-	        	PickupPoint pickup = new PickupPoint(id, latitude, longitude, pickupPointName, roadName, studentCount);
+	        	PickupPoint pickup = new PickupPoint();
+	        	pickup.insertData(id, latitude, longitude, pickupPointName, roadName, studentCount);
 	        	repo.save(pickup);
-	        	
+       	
 	        }
 	        
 	    }
