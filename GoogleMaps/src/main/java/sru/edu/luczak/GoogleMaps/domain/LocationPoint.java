@@ -7,14 +7,12 @@ import org.springframework.lang.NonNull;
 import javax.persistence.Entity;
 
 @Entity
-public class PickupPoint {
+public class LocationPoint {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	@NonNull
-	private int studentCount;
-	@NonNull
-	private String pickupPointName;
+	private String locationPointName;
 	@NonNull
 	private String roadName;
 	@NonNull
@@ -36,13 +34,12 @@ public class PickupPoint {
 	}
 */
 	
-	public void insertData(int id, float latitude, float longitude, String pickupPointName, String roadName, int studentCount) {
+	public void insertData(int id, float latitude, float longitude, String locationPointName, String roadName) {
 		this.id= id;
 		this.latitude = latitude;
 		this.longitude = longitude;
-		this.pickupPointName = pickupPointName;
+		this.locationPointName = locationPointName;
 		this.roadName = roadName;
-		this.studentCount = studentCount;
 	}
 
 	public int getId() {
@@ -53,20 +50,12 @@ public class PickupPoint {
 		this.id = id;
 	}
 
-	public int getStudentCount() {
-		return studentCount;
+	public String getLocationPointName() {
+		return locationPointName;
 	}
 
-	public void setStudentCount(int studentCount) {
-		this.studentCount = studentCount;
-	}
-
-	public String getPickupPointName() {
-		return pickupPointName;
-	}
-
-	public void setPickupPointName(String pickuppointName) {
-		this.pickupPointName = pickuppointName;
+	public void setLocationPointName(String locationPointName) {
+		this.locationPointName = locationPointName;
 	}
 
 	public String getRoadName() {

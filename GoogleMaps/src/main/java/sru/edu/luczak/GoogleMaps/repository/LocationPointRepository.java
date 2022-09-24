@@ -2,7 +2,7 @@ package sru.edu.luczak.GoogleMaps.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import sru.edu.luczak.GoogleMaps.domain.PickupPoint;
+import sru.edu.luczak.GoogleMaps.domain.LocationPoint;
 
 /*
  * Spring Data JPA allows one to implement JPA-based repositories (DAO (Data Access Object) pattern).
@@ -13,4 +13,4 @@ import sru.edu.luczak.GoogleMaps.domain.PickupPoint;
  * Extending the CrudRepository interface provides the application with basic CRUD functionality on User objects.
  */
 
-public interface PickupPointRepository extends JpaRepository<PickupPoint, Integer> {}
+public interface LocationPointRepository extends JpaRepository<LocationPoint, Integer> {}
