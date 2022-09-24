@@ -14,18 +14,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import sru.edu.luczak.GoogleMaps.domain.PickupPoint;
-import sru.edu.luczak.GoogleMaps.repository.PickupPointRepository;
+import sru.edu.luczak.GoogleMaps.domain.LocationPoint;
+import sru.edu.luczak.GoogleMaps.repository.LocationPointRepository;
 
 
 @Controller
 public class PickupPointController { 	
 
 	//set up a UserRepositoty variable
-	private PickupPointRepository pickupPointRepository;
+	private LocationPointRepository pickupPointRepository;
 	
 	//create an UserRepository instance - instantiation (new) is done by Spring
-    public PickupPointController(PickupPointRepository pickupPointRepository) {
+    public PickupPointController(LocationPointRepository pickupPointRepository) {
 		this.pickupPointRepository = pickupPointRepository;
 	}
 	
@@ -102,13 +102,13 @@ public class PickupPointController {
 
     //Mapping for the /signup URL - calls the add-user HTML, to add a user
 	@RequestMapping({"/createpickup"})
-    public String showCreatePickupForm(PickupPoint pickupPoint) {
+    public String showCreatePickupForm(LocationPoint pickupPoint) {
         return "add-pickuppoints";
     }
     
 	//Mapping for the /signup URL - to add a user
     @RequestMapping({"/addpickup"})
-    public String addPickupPoint(@Validated PickupPoint pickupPoint, BindingResult result, Model model) {
+    public String addPickupPoint(@Validated LocationPoint pickupPoint, BindingResult result, Model model) {
         if (result.hasErrors()) {
             return "add-pickuppoints";
         }
@@ -120,7 +120,7 @@ public class PickupPointController {
     //Mapping for the /edit/user URL to edit a user 
     @GetMapping("/editpickup/{id}")
     public String showPickupUpdateForm(@PathVariable("id") int id, Model model) {
-    	PickupPoint pickupPoint = pickupPointRepository.findById(id)
+    	LocationPoint pickupPoint = pickupPointRepository.findById(id)
           .orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
         model.addAttribute("pickuppoint", pickupPoint);
         return "update-pickuppoint";
@@ -128,7 +128,7 @@ public class PickupPointController {
     
     //Mapping for the /update/id URL to update a user 
     @PostMapping("/updatepickup/{id}")
-    public String updatePickupPoint(@PathVariable("id") int id, @Validated PickupPoint pickupPoint, 
+    public String updatePickupPoint(@PathVariable("id") int id, @Validated LocationPoint pickupPoint, 
       BindingResult result, Model model) {
         if (result.hasErrors()) {
             pickupPoint.setId(id);
@@ -142,7 +142,7 @@ public class PickupPointController {
     //Mapping for the /delete/id URL to delete a user     
     @GetMapping("/deletepickup/{id}")
     public String deletePickupPoint(@PathVariable("id") int id, Model model) {
-    	PickupPoint pickupPoint = pickupPointRepository.findById(id)
+    	LocationPoint pickupPoint = pickupPointRepository.findById(id)
           .orElseThrow(() -> new IllegalArgumentException("Invalid pickup Id:" + id));
         pickupPointRepository.delete(pickupPoint);
         return "redirect:/";
