@@ -80,8 +80,6 @@ public class GoogleMapsApplication implements CommandLineRunner {
 		    	String city = row.getCell(4).getStringCellValue();
 		    	String state = row.getCell(5).getStringCellValue();
 		    	long zipCode = (long) row.getCell(6).getNumericCellValue();
-//		    	String zipCode = row.getCell(6).getStringCellValue();
-//		    	String bDate = row.getCell(7).getStringCellValue();
 		    	Date bDate = row.getCell(7).getDateCellValue();
 		    	String phoneNum = row.getCell(8).getStringCellValue();
 		    	String cellPhoneNum = row.getCell(9).getStringCellValue();
@@ -89,7 +87,6 @@ public class GoogleMapsApplication implements CommandLineRunner {
 		    	String parentLastName = row.getCell(11).getStringCellValue();
 		    	String parentFirstName = row.getCell(12).getStringCellValue();
 		    	float grade = (float) row.getCell(13).getNumericCellValue();
-//		    	String grade = row.getCell(13).getStringCellValue();
 		    	String gender = row.getCell(14).getStringCellValue();
 		    	String schoolName = row.getCell(15).getStringCellValue();
 		    	

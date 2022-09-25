@@ -4,9 +4,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import org.springframework.lang.NonNull;
-
 import java.util.Date;
-
 import javax.persistence.Entity;
 
 //This table is designed to hold all of the information for the Students that are going to be linked to PickupPoints
