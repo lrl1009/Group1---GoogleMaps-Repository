@@ -13,6 +13,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import sru.edu.luczak.GoogleMaps.domain.LocationPoint;
 import sru.edu.luczak.GoogleMaps.domain.Students;
+import sru.edu.luczak.GoogleMaps.domain.Depots;
 import sru.edu.luczak.GoogleMaps.repository.LocationPointRepository;
 import sru.edu.luczak.GoogleMaps.repository.StudentRepository;
 
