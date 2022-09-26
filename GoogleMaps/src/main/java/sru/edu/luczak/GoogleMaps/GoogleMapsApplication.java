@@ -34,11 +34,11 @@ public class GoogleMapsApplication implements CommandLineRunner {
 	    	
 	    	//Look into the resources folder to find the stored excel sheet.
 	    	ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-			InputStream is = classloader.getResourceAsStream("LocationPoint_9-24-2022.xlsx");
+			InputStream is = classloader.getResourceAsStream("LocationPoint9-26-2022.xlsx");
 			
 			//Open the excel workbook and open the sheet that we need
 			XSSFWorkbook workbook = new XSSFWorkbook(is);
-		    XSSFSheet sheet = workbook.getSheet("Sheet1");
+		    XSSFSheet sheet = workbook.getSheet("PickupPoint");
 		    
 		    //assign the number of rows equal to the last Row number so the loop knows where to stop
 		    int rows=sheet.getLastRowNum();
@@ -54,14 +54,20 @@ public class GoogleMapsApplication implements CommandLineRunner {
 		    	int id = (int) row.getCell(0).getNumericCellValue();
 		    	String locationPointName = row.getCell(1).getStringCellValue();
 		    	String roadName = row.getCell(2).getStringCellValue();
-		    	float longitude = (float) row.getCell(3).getNumericCellValue();
-		    	float latitude =  (float) row.getCell(4).getNumericCellValue();
+		    	float latitude =  (float) row.getCell(3).getNumericCellValue();
+		    	float longitude = (float) row.getCell(4).getNumericCellValue();
+		    	float distCost = (float) row.getCell(5).getNumericCellValue();
+		    	float timeCost = (float) row.getCell(6).getNumericCellValue();
+		    	float cost = (float) row.getCell(7).getNumericCellValue();
+		    	boolean mapped = row.getCell(8).getBooleanCellValue();
+		    	int routeId = (int) row.getCell(9).getNumericCellValue();
+		    	boolean isActive = row.getCell(10).getBooleanCellValue();
 
 	        	LocationPoint location = new LocationPoint();
-	        	location.insertData(id, latitude, longitude, locationPointName, roadName);
+	        	location.insertData(id, latitude, longitude, locationPointName, roadName, distCost, timeCost, cost, mapped, routeId, isActive);
 	        	repo.save(location);
 	        }
-
+/*
 	    	//Student Information Upload
 	    	InputStream studentInfo = classloader.getResourceAsStream("StudentInfo_9-24-2022.xlsx");
 	    	XSSFWorkbook studentWorkbook = new XSSFWorkbook(studentInfo);
@@ -95,10 +101,18 @@ public class GoogleMapsApplication implements CommandLineRunner {
 	            		gender, grade, lastName, parentFirstName, parentLastName, phoneNum, schoolName, state, zipCode);
 	        	studRepo.save(student);
 	        }
-
+*/
+	    	
+/*		    
+ *          //Load in information for the depot 
+		    InputStream depot = classloader.getResourceAsStream(".xlsx");
+	    	XSSFWorkbook depotWorkbook = new XSSFWorkbook(depot);
+		    XSSFSheet depotSheet = studentWorkbook.getSheet("");
+		    int depotRows=depotSheet.getLastRowNum();
+*/
 	    	//close workbook to avoid memory and data related issues
 	    	workbook.close();
-	    	studentWorkbook.close();
+//	    	studentWorkbook.close();
 	    }
 }		
 /*		
