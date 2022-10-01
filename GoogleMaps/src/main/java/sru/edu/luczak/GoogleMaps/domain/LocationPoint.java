@@ -32,7 +32,6 @@ public class LocationPoint {
 	@NonNull
 	private boolean isActive;
 
-	
 	public void insertData(int location_id, float latitude, float longitude, String locationPointName, String roadName,
 			float distCost, float timeCost, float cost, boolean mapped, int routeId, boolean isActive) {
 		
@@ -88,11 +87,6 @@ public class LocationPoint {
 	public void setLatitude(float latitude) {
 		this.latitude = latitude;
 	}
-/*	
-	public String toString(int id, float latitude, float longitude, String pickupPointName, String roadName, int studentCount) {
-		  return id + latitude + longitude + roadName + pickupPointName + studentCount;
-	  }
-	  */
 
 	public int getLocation_id() {
 		return location_id;
