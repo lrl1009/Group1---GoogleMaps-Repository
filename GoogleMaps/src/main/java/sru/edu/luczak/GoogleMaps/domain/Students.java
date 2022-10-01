@@ -7,6 +7,8 @@ import org.springframework.lang.NonNull;
 
 import java.time.LocalTime;
 import java.util.Date;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 
 //This table is designed to hold all of the information for the Students that are going to be linked to PickupPoints
@@ -24,6 +26,7 @@ public class Students {
     @NonNull private String suffix;
     @NonNull private float grade;
     @NonNull private String address1;
+    @Column(columnDefinition = "TEXT")
     @NonNull private String address2;
     @NonNull private String city;
     @NonNull private String state;
@@ -46,33 +49,39 @@ public class Students {
     @NonNull private String journal;
     @NonNull private String medical;
     @NonNull private boolean isCustody;
-    @NonNull private String alt1Name;
-    @NonNull private String alt1Relationship;
-    @NonNull private String alt1Address1;
-    @NonNull private String alt1Address2;
-    @NonNull private String alt1City;
-    @NonNull private String alt1State;
-    @NonNull private String alt1ZipCode;
-    @NonNull private String alt1Phone;
-    @NonNull private String alt1CellPhone;
-    @NonNull private String alt2Name;
-    @NonNull private String alt2Relationship;
-    @NonNull private String alt2Address1;
-    @NonNull private String alt2Address2;
-    @NonNull private String alt2City;
-    @NonNull private String alt2State;
-    @NonNull private String alt2ZipCode;
-    @NonNull private String alt2Phone;
-    @NonNull private String alt2CellPhone;
-    @NonNull private String alt3Name;
-    @NonNull private String alt3Relationship;
-    @NonNull private String alt3Address1;
-    @NonNull private String alt3Address2;
-    @NonNull private String alt3City;
-    @NonNull private String alt3State;
-    @NonNull private String alt3ZipCode;
-    @NonNull private String alt3Phone;
-    @NonNull private String alt3CellPhone;
+    @Column(columnDefinition = "TEXT")
+    private String alt1Name;
+    @Column(columnDefinition = "TEXT")
+    private String alt1Relationship;
+    @Column(columnDefinition = "TEXT")
+    private String alt1Address1;
+    @Column(columnDefinition = "TEXT")
+    private String alt1Address2;
+    @Column(columnDefinition = "TEXT")
+    private String alt1City;
+    @Column(columnDefinition = "TEXT")
+    private String alt1State;
+    @Column(columnDefinition = "TEXT") private String alt1ZipCode;
+    @Column(columnDefinition = "TEXT") private String alt1Phone;
+    @Column(columnDefinition = "TEXT") private String alt1CellPhone;
+    @Column(columnDefinition = "TEXT") private String alt2Name;
+    @Column(columnDefinition = "TEXT") private String alt2Relationship;
+    @Column(columnDefinition = "TEXT") private String alt2Address1;
+    @Column(columnDefinition = "TEXT") private String alt2Address2;
+    @Column(columnDefinition = "TEXT") private String alt2City;
+    @Column(columnDefinition = "TEXT") private String alt2State;
+    @Column(columnDefinition = "TEXT") private String alt2ZipCode;
+    @Column(columnDefinition = "TEXT") private String alt2Phone;
+    @Column(columnDefinition = "TEXT") private String alt2CellPhone;
+    @Column(columnDefinition = "TEXT") private String alt3Name;
+    @Column(columnDefinition = "TEXT") private String alt3Relationship;
+    @Column(columnDefinition = "TEXT") private String alt3Address1;
+    @Column(columnDefinition = "TEXT") private String alt3Address2;
+    @Column(columnDefinition = "TEXT") private String alt3City;
+    @Column(columnDefinition = "TEXT") private String alt3State;
+    @Column(columnDefinition = "TEXT") private String alt3ZipCode;
+    @Column(columnDefinition = "TEXT") private String alt3Phone;
+    @Column(columnDefinition = "TEXT") private String alt3CellPhone;
     @NonNull private String studentType1;
     @NonNull private String studentType2;
     @NonNull private String studentType3;
@@ -136,17 +145,17 @@ public class Students {
     @NonNull private float wedDeliverOdometer;
     @NonNull private float thuDeliverOdometer;
     @NonNull private float friDeliverOdometer;
-    @NonNull private String altSchool1;
-    @NonNull private String altSchool1PickUpLocation;
-    @NonNull private String altSchool1PickUpStopNo;
-    @NonNull private String altSchool1BusRoute1;
-    @NonNull private LocalTime altSchool1PickUpTime;
-    @NonNull private float altSchool1PickOdometer;
-    @NonNull private boolean altSchool1PickupIsSchool;
-    @NonNull private String altSchool1DeliveryLocation;
-    @NonNull private String altSchool1DeliveryStopNo;
-    @NonNull private String altSchool1BusRoute2;
-    @NonNull private LocalTime altSchool1DeliveryTime;
+    @Column(columnDefinition = "TEXT") private String altSchool1;
+    @Column(columnDefinition = "TEXT") private String altSchool1PickUpLocation;
+    @Column(columnDefinition = "TEXT") private String altSchool1PickUpStopNo;
+    @Column(columnDefinition = "TEXT") private String altSchool1BusRoute1;
+    @Column(columnDefinition = "TEXT") private LocalTime altSchool1PickUpTime;
+    private float altSchool1PickOdometer;
+    private boolean altSchool1PickupIsSchool;
+    @Column(columnDefinition = "TEXT") private String altSchool1DeliveryLocation;
+    @Column(columnDefinition = "TEXT") private String altSchool1DeliveryStopNo;
+    @Column(columnDefinition = "TEXT") private String altSchool1BusRoute2;
+    @Column(columnDefinition = "TEXT") private LocalTime altSchool1DeliveryTime;
     @NonNull private float altSchool1DeliverOdometer;
     @NonNull private boolean altSchool1DeliveryIsSchool;
     @NonNull private int pickDeliverTabValue;
