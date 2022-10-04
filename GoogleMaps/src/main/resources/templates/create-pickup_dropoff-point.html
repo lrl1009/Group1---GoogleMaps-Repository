@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Add Pickup/Drop Off Point</title>
+</head>
+<body>
+<form action="#" th:action="@{/addpickup}" th:object="${pickupPoint}" method="post">
+<table>
+<tr>               
+    <td><label for="pickupPointName">Pickup Point Name</label></td>
+    <td><input type="text" th:field="*{pickupPointName}" id="pickupPointName" placeholder="PickupPointName"></td>
+    <td><span th:if="${#fields.hasErrors('pickupPointName')}" th:errors="*{pickupPointName}"></span></td>
+</tr>    
+<tr>
+    <td><label for="roadName">Road Name</label></td>
+    <td><input type="text" th:field="*{roadName}" id="roadName" placeholder="RoadName"></td>
+    <td><span th:if="${#fields.hasErrors('roadName')}" th:errors="*{roadName}"></span></td>
+</tr>
+<tr>    
+    <td><label for="longitude">Longitude</label></td>
+    <td><input type="text" th:field="*{longitude}" id="longitude" placeholder="Longitude"></td>
+    <td><span th:if="${#fields.hasErrors('longitude')}" th:errors="*{longitude}"></span></td>
+</tr>
+<tr>    
+    <td><label for="latitude">Latitude</label></td>
+    <td><input type="text" th:field="*{latitude}" id="latitude" placeholder="Latitude"></td>
+    <td><span th:if="${#fields.hasErrors('latitude')}" th:errors="*{latitude}"></span></td>
+</tr>
+</table>    
+    <input type="submit" value="Add Pickup/Dropoff Point">   
+</form>
+<script type="text/javascript" th:inline="javascript">
+function addMarker(coords) {
+    var marker = new google.maps.Marker({
+        position:coords,
+        map:map
+    })
+}
+//This is the function used to create the options for the google map
+function initMap(){
+	//var myLatlng = new google.maps.LatLng(-25.363882,131.044922);
+	
+	var options = {
+		zoom: 7,
+		center: {lat: 40.7033 , lng: -77.5945 },
+		streetViewControl: false
+	}
+	//Creates a new map to display on the webpage
+	map = new google.maps.Map(document.getElementById("map"), options)
+	
+	//Place Location Markers
+	/*[# th:each="locationpoint : ${locationpoints}"]*/
+	var latLng = new google.maps.LatLng("[(${locationpoint.getLatitude()})]" , "[(${locationpoint.getLongitude()})]");
+	addMarker(latLng);
+	/*[/]*/
+
+<!--//when map is clicked on, calls marker function-->
+	map.addListener("click", (e) => {
+	    placeMarker(e.latLng, map);
+	   <!-- //applies lat/lng info to text area-->
+	    document.getElementById("LatPos").textContent = e.latLng;
+	});
+	
+	<!-- addPair(40.7220003, -80.1291846, 40.8641043, -79.8938038) -->
+	
+	let buttonArray = document.querySelectorAll('.markerClass');
+	buttonArray.forEach(element => {
+		let tempId = element.id;
+		element.addEventListener('click', (e) =>{
+			
+			console.log('works at ' + element.id);
+			
+		});
+		google.maps.event.addDomListener(document.getElementById(tempId), 'click', () =>{
+		<!-- need to get my lat/long from db provided I have Id -->
+				setIndexById(tempId);
+				newPair(searchIndex);
+				makeRoute(directionsService, directionsRenderer);
+			});
+	});
+	
+	
+<!--//makes marker at the location and pans to it. sets to draggable, so we may adjust the position at will
+    //Also set to clickable to grab coordinates (should also be used for implementing delete/edit/etc.)-->
+	function placeMarker(latLng, map) {
+	  const marker = new google.maps.Marker({
+	    position: latLng,
+	    map: map,
+	    draggable: true,
+	    clickable: true,
+	  });
+	  
+	
+	<!--//add listener for on-click events-->
+	  marker.addListener("click", (e) => {
+		displayCoord(e.latLng);
+		highlightMarker(marker);
+
+		});
+	
+	<!--//double-click to open info window-->
+	  marker.addListener("dblclick", (e) => {
+			infowindow.open({
+				  map: map,
+			      anchor: marker,
+			      shouldFocus: true,
+			    });
+			});
+	  
+	  
+	  markers.push(marker);
+	};
+	
+	function setIndexById(tId){
+		let realId = String(tId.replaceAll("mark", ""));
+		let i = 0;
+		while(realId != searchArr[i][0]){
+			i++;
+		}
+		if(realId == searchArr[i][0]){
+			searchIndex = i;
+		}
+		else console.log("Error, no ID match");
+	}
+	
+	function newPair(index){
+		deleteMarkers();
+		
+		let latitude = Number(searchArr[index][1]);
+		let longitude = Number(searchArr[index][2]);
+		
+		const add1 = new google.maps.LatLng(latitude, longitude);
+		placeMarker(add1, map);
+		
+		markers[0].setLabel("Start");
+		markers[1].setLabel("End");
+		
+		changeCenter();
+		
+	}
+	
+	function makeRoute(directionsService, directionsRenderer){
+		
+		let pos1 = markers[0].getPosition();
+		let pos2 = markers[1].getPosition();
+		//remove once custom polyline replaces renderer
+		deleteMarkers();
+		
+		directionsService
+	    .route({
+	      origin: pos1,
+	      destination: pos2,
+	      travelMode: 'DRIVING',
+	    })
+	    .then((response) => {
+	      directionsRenderer.setDirections(response);
+	    })
+	    .catch((e) => window.alert("Directions request failed due to " + status));
+	}
+	
+	function deleteMarkers(){
+		for (let i = 0; i < markers.length; i++) {
+		    markers[i].setMap(null);
+		  }
+		markers = [];
+	}
+	
+	function changeCenter(){
+		let centerLat = 0;
+		let centerLng = 0;
+		
+		for (let i = 0; i < markers.length; i++) {
+		    centerLat += markers[i].getPosition().lat();
+		    centerLng += markers[i].getPosition().lng();
+		  }
+		
+		centerLat = centerLat/2;
+		centerLng = centerLng/2;
+		const center = new google.maps.LatLng(centerLat, centerLng);
+		map.setCenter(center);
+	}
+};
+
+function displayCoord(latLng){
+	document.getElementById("LatPos").textContent = latLng;
+}
+	};
+
+</script>
+<div id="map"></div>
+<script async
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD390VrMYSzUckUBYiWeXy2ZvVDrNtWUPg&callback=initMap">
+</script>
+</body>
+</html>

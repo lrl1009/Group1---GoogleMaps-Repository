@@ -36,6 +36,7 @@
 		</tr>
 		</tbody>
 		</table>
+		
 <script type="text/javascript" th:inline="javascript">
 function addMarker(coords) {
     var marker = new google.maps.Marker({
@@ -54,17 +55,13 @@ function initMap(){
 		streetViewControl: false
 	}
 	//Creates a new map to display on the webpage
-	map = new google.maps.Map(document.getElementById("map"), options) 
+	map = new google.maps.Map(document.getElementById("map"), options)
 	
+	//Place Location Markers
 	/*[# th:each="locationpoint : ${locationpoints}"]*/
 	var latLng = new google.maps.LatLng("[(${locationpoint.getLatitude()})]" , "[(${locationpoint.getLongitude()})]");
 	addMarker(latLng);
 	/*[/]*/
-		
-	//Place Location Markers
-	
-
-	// To add the marker to the map, call setMap();
 	
 	};
 

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Add Student</title>
+<style>
+	#map{
+		height: 600px;
+		width: 1200px;
+	}
+	
+	.highlight{
+		background: #ddd;
+	}
+	</style>
+</head>
+<body>
+<form action="#" th:action="@{/addStudent}" th:object="${students}" method="post">
+    <label for="firstName">First Name</label>
+    <input type="text" th:field="*{firstName}" id="firstName" placeholder="First Name">
+    <span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></span>
+        
+        <label for="lastName">Last Name</label>
+    <input type="text" th:field="*{lastName}" id="lastName" placeholder="Last Name">
+    <span th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></span>
+    
+        <label for="midName">Middle Name</label>
+    <input type="text" th:field="*{midName}" id="midName" placeholder="Middle Name">
+    <span th:if="${#fields.hasErrors('midName')}" th:errors="*{midName}"></span>
+    
+        <label for="suffix">Suffix</label>
+    <input type="text" th:field="*{suffix}" id="suffix" placeholder="Suffix">
+    <span th:if="${#fields.hasErrors('suffix')}" th:errors="*{suffix}"></span>
+    
+        <label for="grade">Grade</label>
+    <input type="text" th:field="*{grade}" id="grade" placeholder="Grade">
+    <span th:if="${#fields.hasErrors('grade')}" th:errors="*{grade}"></span>
+    
+    <label for="city">City</label>
+    <input type="text" th:field="*{city}" id="city" placeholder="City">
+    <span th:if="${#fields.hasErrors('city')}" th:errors="*{city}"></span>
+    
+    <label for="state">State</label>
+    <input type="text" th:field="*{state}" id="state" placeholder="State">
+    <span th:if="${#fields.hasErrors('state')}" th:errors="*{state}"></span>
+    
+    <label for="zipCode">ZipCode</label>
+    <input type="text" th:field="*{zipCode}" id="zipCode" placeholder="ZipCode">
+    <span th:if="${#fields.hasErrors('zipCode')}" th:errors="*{zipCode}"></span>
+    
+    <label for="sex">Sex</label>
+    <input list="text" th:field="*{gender}" id="gender" placeholder="-">
+    <span th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}"></span>
+    
+    <label for="birthDate">DOB</label>
+    <input type="date" th:field="*{birthDate}" id="birthDate" placeholder="Date-Of-Birth">
+    <span th:if="${#fields.hasErrors('birthDate')}" th:errors="*{birthDate}"></span>
+    
+     <label for="phoneNum">Phone</label>
+    <input type="text" th:field="*{phoneNum}" id="phoneNum" placeholder="xxxxxx" maxlength="10">
+    <span th:if="${#fields.hasErrors('phoneNum')}" th:errors="*{phoneNum}"></span>
+    
+    <label for="cellPhoneNum">Cell Phone</label>
+    <input type="text" th:field="*{cellPhoneNum}" id="cellPhoneNum" placeholder="xxxxx" maxlength="10">
+    <span th:if="${#fields.hasErrors('cellPhoneNum')}" th:errors="*{cellPhoneNum}"></span>
+    
+    <label for="emergencyPhoneNum">Emergency Phone</label>
+    <input type="text" th:field="*{emergencyPhoneNum}" id="emergencyPhoneNum" placeholder="xxxxx" maxlength="10">
+    <span th:if="${#fields.hasErrors('emergencyPhoneNum')}" th:errors="*{emergencyPhoneNum}"></span>
+    
+    <label for="parentName">Parent Name</label>
+    <input type="text" th:field="*{parentName}" id="parentName" placeholder="Parent Name">
+    <span th:if="${#fields.hasErrors('parentName')}" th:errors="*{parentName}"></span>
+    
+        <label for="travelMode">Travel Mode</label>
+    <input type="text" th:field="*{travelMode}" id="travelMode" placeholder="school Bus">
+    <span th:if="${#fields.hasErrors('travelMode')}" th:errors="*{travelMode}"></span>
+    
+        <label for="driverNote">Driver Note</label>
+    <input type="text" th:field="*{driverNote}" id="driverNote" placeholder="Driver Notes">
+    <span th:if="${#fields.hasErrors('driverNote')}" th:errors="*{driverNote}"></span>
+    
+        <label for="misc">Miscellaneous</label>
+    <input type="text" th:field="*{misc}" id="misc" placeholder="Misc">
+    <span th:if="${#fields.hasErrors('misc')}" th:errors="*{misc}"></span>
+    
+        <label for="journal">Journal</label>
+    <input type="text" th:field="*{journal}" id="journal" placeholder="Journal">
+    <span th:if="${#fields.hasErrors('journal')}" th:errors="*{journal}"></span>
+    
+        <label for="medical">Medical</label>
+    <input type="text" th:field="*{medical}" id="medical" placeholder="Medical">
+    <span th:if="${#fields.hasErrors('medical')}" th:errors="*{medical}"></span>
+    
+        <label for="studentType1">Student Type</label>
+    <input type="text" th:field="*{studentType1}" id="studentType1" placeholder="Regular">
+    <span th:if="${#fields.hasErrors('studentType1')}" th:errors="*{studentType1}"></span>
+   
+    <input type="submit" value="Add Student">   
+</form>
+<script type="text/javascript" th:inline="javascript">
+
+//This is the function used to create the options for the google map
+function initMap(){
+		
+	var options = {
+		zoom: 7,
+		center: {lat: 40.7033 , lng: -77.5945 },
+		streetViewControl: false
+	}
+	//Creates a new map to display on the webpage
+	map = new google.maps.Map(document.getElementById("map"), options)
+	
+	// This event listener calls addMarker() when the map is clicked.
+	  google.maps.event.addListener(map, "click", (event) => {
+	    addMarker(event.latLng, map);
+	    document.getElementById("LatPos").textContent = event.latLng;
+	  });
+};
+	// Adds a marker to the map.
+	function addMarker(location, map) {
+	  // Add the marker at the clicked location.
+	  const marker = new google.maps.Marker({
+	    position: location,
+	    map: map,
+	  });
+	  
+	  <!--//add listener for on-click events-->
+	  marker.addListener("click", (e) => {
+		displayCoord(e.latLng);
+		highlightMarker(marker);
+		});
+	}
+	
+	function displayCoord(latLng){
+		document.getElementById("LatPos").textContent = latLng;
+	}
+</script>
+<h3> Marker Coordinates: </h3> 
+<p id="LatPos">Coordinates will be shown here!</p>
+<div id="map"></div>
+<script async
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD390VrMYSzUckUBYiWeXy2ZvVDrNtWUPg&callback=initMap">
+</script>
+</body>
+</html>

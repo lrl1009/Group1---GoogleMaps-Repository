@@ -3,6 +3,9 @@ package sru.edu.luczak.GoogleMaps.domain;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToOne;
+
 import org.springframework.lang.NonNull;
 import javax.persistence.Entity;
 
@@ -31,6 +34,8 @@ public class LocationPoint {
 	private int routeId;
 	@NonNull
 	private boolean isActive;
+	@OneToOne(mappedBy = "location")
+    private Schools school;
 
 	public void insertData(int location_id, float latitude, float longitude, String locationPointName, String roadName,
 			float distCost, float timeCost, float cost, boolean mapped, int routeId, boolean isActive) {
@@ -144,11 +149,3 @@ public class LocationPoint {
 		this.isActive = isActive;
 	}
 }
-
-// JPA (Java - based database)
-// Hibernate (Works with JPA)
-// JDBC (????)
-// MySQL (Works with ^)
-// javax libraries - Done
-// apache POI (Spreadsheets)
-// Controller (look into)

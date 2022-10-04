@@ -1,23 +1,20 @@
 package sru.edu.luczak.GoogleMaps.toDatabase;
 
 import java.io.InputStream;
+
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.stereotype.Component;
 
-import sru.edu.luczak.GoogleMaps.domain.LocationPoint;
-import sru.edu.luczak.GoogleMaps.domain.Schools;
-import sru.edu.luczak.GoogleMaps.repository.LocationPointRepository;
+import sru.edu.luczak.GoogleMaps.domain.Students;
+import sru.edu.luczak.GoogleMaps.repository.StudentRepository;
 
-@Component
-public class LoadLocationPoints implements CommandLineRunner{
+public class LoadStudents implements CommandLineRunner {
 	
-	private LocationPointRepository repo;
+private StudentRepository repo;
 
-	
-    public LoadLocationPoints(LocationPointRepository repo) {
+    public LoadStudents(StudentRepository repo) {
 		this.repo = repo;
 	}
 
@@ -25,11 +22,11 @@ public class LoadLocationPoints implements CommandLineRunner{
 	public void run(String... args) throws Exception {
 		//Look into the resources folder to find the stored excel sheet.
     	ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-		InputStream is = classloader.getResourceAsStream("LocationPointTest.xlsx");
+		InputStream is = classloader.getResourceAsStream("StudentsTEST.xlsx");
 		
 		//Open the excel workbook and open the sheet that we need
 		XSSFWorkbook workbook = new XSSFWorkbook(is);
-	    XSSFSheet sheet = workbook.getSheet("PickupPoint");
+	    XSSFSheet sheet = workbook.getSheet("Students");
 	    
 	    //assign the number of rows equal to the last Row number so the loop knows where to stop
 	    int rows=sheet.getLastRowNum();
@@ -54,9 +51,9 @@ public class LoadLocationPoints implements CommandLineRunner{
 	    	int routeId = (int) row.getCell(9).getNumericCellValue();
 	    	boolean isActive = row.getCell(10).getBooleanCellValue();
 
-        	LocationPoint location = new LocationPoint();
-        	location.insertData(id, latitude, longitude, locationPointName, roadName, distCost, timeCost, cost, mapped, routeId, isActive);
-        	repo.save(location);
+        	Students student = new Students();
+        	
+        	repo.save(student);
         }
     	workbook.close();
 		
