@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Create School</title>
+<style>
+	#map{
+		height: 600px;
+		width: 100%;
+	}
+	
+	.highlight{
+		background: #ddd;
+	}
+	</style>
+</head>
+<body>
+<form action="#" th:action="@{/addSchool}" th:object="${schools}" method="post">
+<table>
+<tr>               
+    <td><label for="schoolName">School Name</label></td>
+    <td><input type="text" th:field="*{schoolName}" id="schoolName" placeholder="School Name"></td>
+    <td><span th:if="${#fields.hasErrors('schoolName')}" th:errors="*{schoolName}"></span></td>
+</tr>
+<tr>               
+    <td><label for="type">School Type</label></td>
+    <td><input type="text" th:field="*{type}" id="type" placeholder="School Type"></td>
+    <td><span th:if="${#fields.hasErrors('type')}" th:errors="*{type}"></span></td>
+</tr>        
+<tr>               
+    <td><label for="schoolGrade">School Grade</label></td>
+    <td><input type="text" th:field="*{schoolGrade}" id="schoolGrade" placeholder="School Grade"></td>
+    <td><span th:if="${#fields.hasErrors('schoolGrade')}" th:errors="*{schoolGrade}"></span></td>
+</tr>  
+<tr>               
+    <td><label for="studentCount">Student Count</label></td>
+    <td><input type="number" th:field="*{studentCount}" id="studentCount" placeholder="Total Students"></td>
+    <td><span th:if="${#fields.hasErrors('studentCount')}" th:errors="*{studentCount}"></span></td>
+</tr>
+<tr>               
+    <td><label for="schoolDays">Total School Days</label></td>
+    <td><input type="number" th:field="*{schoolDays}" id="schoolDays" placeholder="Total Days"></td>
+    <td><span th:if="${#fields.hasErrors('schoolDays')}" th:errors="*{schoolDays}"></span></td>
+</tr>
+<tr>               
+    <td><label for="location.latitude">School Location: Latitude</label></td>
+    <td><input type="number" step="0.00000001" th:field="*{location.latitude}" id="location.latitude" placeholder="Latitude"></td>
+    <td><span th:if="${#fields.hasErrors('location.latitude')}" th:errors="*{location.latitude}"></span></td>
+</tr>	
+<tr>               
+    <td><label for="location.longitude">School Location: Longitude</label></td>
+    <td><input type="number" step="0.00000001" th:field="*{location.longitude}" id="location.longitude" placeholder="Longitude"></td>
+    <td><span th:if="${#fields.hasErrors('location.longitude')}" th:errors="*{location.longitude}"></span></td>
+</tr>	 
+   </table>
+    <input type="submit" value="Add School">   
+</form>
+<script type="text/javascript" th:inline="javascript">
+
+//This is the function used to create the options for the google map
+function initMap(){
+		
+	var options = {
+		zoom: 7,
+		center: {lat: 40.7033 , lng: -77.5945 },
+		streetViewControl: false
+	}
+	//Creates a new map to display on the webpage
+	map = new google.maps.Map(document.getElementById("map"), options)
+	
+	// This event listener calls addMarker() when the map is clicked.
+	  google.maps.event.addListener(map, "click", (event) => {
+	    addMarker(event.latLng, map);
+	    document.getElementById("LatPos").textContent = event.latLng;
+	  });
+};
+	// Adds a marker to the map.
+	function addMarker(location, map) {
+	  // Add the marker at the clicked location.
+	  const marker = new google.maps.Marker({
+	    position: location,
+	    map: map,
+	    draggable: true,
+	    clickable: true,
+	  });
+	  
+	  //add listenders for click events
+	  marker.addListener("click", (e) => {
+		displayCoord(e.latLng);
+		highlightMarker(marker);
+		});
+	}
+	
+	function displayCoord(latLng){
+		document.getElementById("LatPos").textContent = latLng;
+	}
+</script>
+<h3> Marker Coordinates: </h3> 
+<p id="LatPos">Coordinates will be shown here!</p>
+<div id="map"></div>
+<script async
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD390VrMYSzUckUBYiWeXy2ZvVDrNtWUPg&callback=initMap">
+</script>
+</body>
+</html>

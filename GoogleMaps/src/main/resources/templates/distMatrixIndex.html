@@ -137,7 +137,7 @@
 		  
 		  
 		  markers.push(marker);
-		};
+		};//End of place marker
 		
 		function setIndexById(tId){
 			let realId = String(tId.replaceAll("mark", ""));
@@ -260,7 +260,7 @@
 			<button type="submit">To Polygon and Routing</button>
 		</form>
 	
-<div th:switch="${dist}">
+<div th:switch="${locationpoints}">
 	<h3>Please enter Origin and Destination</h3>
 	<p><i>Please select "New Query" or view existing ones below</i></p>
 		<div>

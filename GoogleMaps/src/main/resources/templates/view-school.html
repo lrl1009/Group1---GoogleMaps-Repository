@@ -4,31 +4,31 @@
 <meta charset="ISO-8859-1">
 <title>Showing PickupPoint Information</title>
 </head>
-
 <body>
 <div>
-<p><a href = "/createpickup">Add Pickup Points</a></p>
 <table>
 	<thead>
 		<tr>
 				<th>Id</th>
+				<th>Name</th>
+				<th>Type</th>
+				<th>Number of Students</th>
+				<th>Grade</th>
+				<th>School Days</th>
 				<th>Latitude</th>
 				<th>Longitude</th>
-				<th>Location Point Name</th>
-				<th>Road Name</th>
 		</tr>
 		</thead>
 		<tbody>
-			 <tr th:each="locationpoint : ${locationpoints}">
-			   <td th:text="${locationpoint.location_id}"></td> 
-			   <td th:text="${locationpoint.latitude}"></td> 
-			   <td th:text="${locationpoint.longitude}"></td> 
-			   <td th:text="${locationpoint.locationPointName}"></td>
-			   <td th:text="${locationpoint.roadName}"></td> 
-
-			   
-			   <td><a th:href="@{/editLocation/{id}(id=${locationpoint.location_id})}">Edit</a></td>
-               <td><a th:href="@{/deleteLocation/{id}(id=${locationpoint.location_id})}">Delete</a></td> 
+			 <tr th:each="school : ${schools}">
+			   <td th:text="${school.id}"></td>
+			   <td th:text="${school.schoolName}"></td>
+			   <td th:text="${school.type}"></td>
+			   <td th:text="${school.studentCount}"></td> 
+			   <td th:text="${school.schoolGrade}"></td> 
+			   <td th:text="${school.schoolDays}"></td> 
+			   <td th:text="${school.location.latitude}"></td> 
+			   <td th:text="${school.location.longitude}"></td> 
 		</tr>
 		</tbody>
 		</table>

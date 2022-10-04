@@ -36,11 +36,7 @@ public class PickupPointController {
 		this.locationPointRepository = locationPointRepository;
 	}
  /*    
-    @RequestMapping({"/"})
-		public String requestData() {
-			return "distMatrixIndex";
-		}
-*/    
+    
     
   //This method calls the select-school HTML file to guide the user through UI
   		@RequestMapping({"/"})
@@ -48,7 +44,7 @@ public class PickupPointController {
   			model.addAttribute("locationpoints", locationPointRepository.findAll());
   			return "googleMaps";
   		}
-  		
+*/  		
 /*	
 	//This method calls the select-school HTML file to guide the user through UI
 		@RequestMapping({"/"})
@@ -56,7 +52,7 @@ public class PickupPointController {
 			return "select-school";
 		}
 */
-   /* 
+/*    
 		@RequestMapping({"", "/distance-matrix"})
 		public String showQueries(Model model) {
 			model.addAttribute("location", locationPointRepository.findAll());

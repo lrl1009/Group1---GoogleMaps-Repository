@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+
+	<style>
+	#map{
+		height: 600px;
+		width: 100%;
+	}
+	
+	.xcel{
+		height: 250px;
+		width: 100%;
+		overflow-y: scroll;
+	}
+	
+	#legend {
+    	font-family: Arial, sans-serif;
+   		background: #fff;
+    	padding: 10px;
+    	margin: 10px;
+    	border: 3px solid #000;
+  }
+	</style>
+	
+	<script> 
+	//var table; // = document.getElementById("myTable");
+	const myPolyLat = [];
+	const myPolyLng = [];
+	const markerLat = [];
+	const markerLng = [];
+	const cluster = [];
+	const clusterPolygons = [];
+	//-------------------------------------------------------------------
+	//Sourced largely from https://qawithexperts.com/article/javascript/read-csv-file-in-javascript-and-html5-filereader-multiple-wa/238
+	//read in csv file, format to html <table>
+	
+	function processFile() {
+	    var fileSize = 0;
+	    //get file
+	    var theFile = document.getElementById("myFile");
+	     //console.log(theFile);
+	     var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.csv|.txt)$/;
+	     //check if file is CSV
+	     if (regex.test(theFile.value.toLowerCase())) {
+	     //check if browser support FileReader
+	        if (typeof (FileReader) != "undefined") {
+	       //get table element
+	        var myTable = document.getElementById("myTable");
+	        var headerLine = "";
+	        //create html5 file reader object
+	        var myReader = new FileReader();
+	        // call filereader. onload function
+	        myReader.onload = function(e) {
+	            var content = myReader.result;
+	            //split csv file using "\n" for new line ( each row)
+	            var lines = content.split("\n");
+	            //loop all rows
+	            console.log("count="+lines.length)
+	            for (var count = 0; count < lines.length; count++) {
+	                //create a tr element
+	                var row = document.createElement("tr");
+	                //console.log("#1: " + row);
+	                //split each row content
+	                var rowContent = lines[count].split(",");
+	               // console.log("#2: " + rowContent);
+	               if(count != lines.length-1){
+	                	
+	            	   //Load content into arrays
+	                	if (rowContent[0] != ""){
+	                		myPolyLng.push(parseFloat(rowContent[0].replaceAll("\"", "")));
+	                	}
+	                	//console.log("polyLat = "+ rowContent[1]);
+	                	if (rowContent[1] != "" && rowContent[1] != " " && rowContent[1] != null){
+	                		myPolyLat.push(parseFloat(rowContent[1].replaceAll("\"", "")));
+	                	}
+	                	//console.log("addLng = "+ rowContent[2]);
+	                	if (rowContent[2] != ""){
+                			markerLng.push(parseFloat(rowContent[2].replaceAll("\"", "")));
+	                	}
+	                	//console.log("addLat = "+ rowContent[3]);
+	                	if (rowContent[3] != ""){
+                			markerLat.push(parseFloat(rowContent[3].replaceAll("\"", "")));
+	                	}
+	                	//console.log("cluster = "+ rowContent[4]);
+	                	if (rowContent[4] != ""){
+                			cluster.push(parseFloat(rowContent[4].replaceAll("\"", "")));
+	                	}
+	               }
+	                //loop throw all columns of a row
+	                for (var i = 0; i < rowContent.length; i++) {
+	                   //create td element 
+	                    var cellElement = document.createElement("td");
+	                    if (count == 0) {
+	                        cellElement = document.createElement("th");
+	                    } else {
+	                        cellElement = document.createElement("td");
+	                    }
+	                    //add a row element as a node for table
+	                    var cellContent = document.createTextNode(rowContent[i].replaceAll("\"", ""));
+	                    //console.log("#3: " + cellContent);
+	                    cellElement.appendChild(cellContent);
+	                    //append row child
+	                    row.appendChild(cellElement);
+	                }
+	                //append table contents
+	                myTable.appendChild(row);
+	            }
+	            console.log("Removed Labels!");
+		    	removeLabels();
+		    	 
+		    	const unique = [...new Set(cluster)];
+		    	for(let i = 0; i < unique; i++){
+					clusterPolygons[i] = unique[i];
+		    	}
+	        }
+	         //call file reader onload
+	         
+	          myReader.readAsText(theFile.files[0]);
+	        }
+	        else 
+	        {
+	              alert("This browser does not support HTML5.");
+	        }
+	        
+	    }
+	    else {
+	                alert("Please upload a valid CSV file.");
+	    }
+		
+
+	    return false;
+	}
+	//---------------------------------------------------------------------------
+	
+	
+
+	let map;
+	let markers = [];
+	
+	//.csv files currently support up to 10 clusters
+	let colors = [
+		"http://maps.google.com/mapfiles/ms/icons/red-dot.png",
+		"http://maps.google.com/mapfiles/ms/icons/orange-dot.png",
+		"http://maps.google.com/mapfiles/ms/icons/yellow-dot.png",
+		"http://maps.google.com/mapfiles/ms/icons/green-dot.png",
+		"http://maps.google.com/mapfiles/ms/icons/ltblue-dot.png",
+		"http://maps.google.com/mapfiles/ms/icons/blue-dot.png",
+		"http://maps.google.com/mapfiles/ms/icons/pink-dot.png",
+		"http://maps.google.com/mapfiles/ms/icons/purple-dot.png",
+		"http://maps.google.com/mapfiles/ms/icons/red.png",
+		"http://maps.google.com/mapfiles/ms/icons/orange.png",
+		"http://maps.google.com/mapfiles/ms/icons/yellow.png",
+		//"http://maps.google.com/mapfiles/ms/icons/green.png",
+		//"http://maps.google.com/mapfiles/ms/icons/ltblue.png",
+		//"http://maps.google.com/mapfiles/ms/icons/blue.png",
+		//"http://maps.google.com/mapfiles/ms/icons/pink.png",
+		//"http://maps.google.com/mapfiles/ms/icons/purple.png",
+	];
+	
+	//var myLatLng = new Array(myPolyLat.length);
+	function initMap(){
+		
+		//generate map
+		map = new google.maps.Map(document.getElementById("map"), {
+			zoom: 9,
+			center: {lat: 40.7033 , lng: -77.5945 },
+			streetViewControl: false,		
+		});
+		
+
+		
+		var polyPath = new Array();
+		//create polygon object for area
+		const primaryPoly = new google.maps.Polygon({
+			fillColor: "#000000",
+			fillOpacity: 0.1,
+			strokeColor: "#000000",
+		    strokeOpacity: 1.0,
+		    strokeWeight: 2,
+			paths: polyPath,
+			Map: map,
+		});
+		
+		
+	//create and assign pathing for primary area polygon
+		function makePrimaryPolygon(){	
+
+			//console.log("Lat: "+ myPolyLat[0]);
+			//console.log("Lng: "+ myPolyLng[0]);
+			//console.log("myPolyLat length: "+ myPolyLat.length);
+			for(let i = 0; i < myPolyLng.length; i++){
+				//myLatLng[i] = new google.maps.LatLng(myPolyLat[i], myPolyLng[i]);
+				//polyPath[i] = myLatLng[i];
+				polyPath.push(new google.maps.LatLng(myPolyLat[i], myPolyLng[i]));
+			}
+			//console.log("PolyPath = " + polyPath[0].lng() + ", "+ polyPath[0].lat());
+			//console.log("obj "+ polyPath[0]);
+			primaryPoly.setPath(polyPath);
+		}
+	
+		//create polygon for cluster and assign pathing
+		//Using will assign markers to polygon, so weird shapes will occur. can be enabled by adding function to listener
+		//if enabled, should include dropdown menu for selecting cluster parameter
+		function makeClusterPolygon(clusterNum){
+			
+			var newPath = [];
+			let j = 0;
+			for(let i = 0; i < cluster.length; i++){
+				if(cluster[i] == clusterNum){
+					newPath[j] = new google.maps.LatLng(markerLat[i], markerLng[i]);
+					j++;
+				}
+			}
+			const clusterPoly = new google.maps.Polygon({
+				fillColor: "#41fff2",
+				fillOpacity: 0.1,
+				strokeColor: "41fff2",
+			    strokeOpacity: 1.0,
+			    strokeWeight: 2,
+				paths: newPath,
+				Map: map,
+			});
+		}
+		
+		//generate markers and assign icon by cluster
+		function makeMarkers(){
+			console.log("making markers");
+			for(let i = 0; i < markerLat.length; i++){
+				//myLatLng[i] = new google.maps.LatLng(myPolyLat[i], myPolyLng[i]);
+				//polyPath[i] = myLatLng[i];
+				var iconColor = colors[cluster[i]];
+				
+				var newLatLng = new google.maps.LatLng(markerLat[i], markerLng[i]);
+				const marker = new google.maps.Marker({
+				    position: newLatLng,
+				    icon: iconColor,
+				    map: map,
+				    draggable: true,
+				    clickable: true,
+				  });
+				markers[i] = marker;
+				markers[i].setMap(map);
+			}
+		}
+		
+		//set center according to provided polygon
+		function centerMap(){
+			var myCenter = [0, 0];
+			
+			for (let i = 0; i < myPolyLat.length; i++){
+				myCenter[0] += myPolyLat[i];
+				myCenter[1] += myPolyLng[i];
+			}
+			myCenter[0] = myCenter[0] / myPolyLat.length;
+			myCenter[1] = myCenter[1] / myPolyLng.length;
+			
+			let newCenter = new google.maps.LatLng(myCenter[0], myCenter[1]);	
+			map.setCenter(newCenter);
+		}
+		
+		var toggled = 0;
+		
+		//allow user to toggle visibility of markers/clusters
+		function toggleMarkers(){
+			if(toggled == 0){
+				for (let i = 0; i < markers.length; i++) {
+			   		markers[i].setVisible(false);
+			  	}
+				toggled = 1;
+			}
+			else{
+				for (let i = 0; i < markers.length; i++) {
+			   		markers[i].setVisible(true);
+			  	}
+				toggled = 0;
+			}
+		}
+		
+		
+		
+		
+		
+		
+		//DOM Listeners
+		google.maps.event.addDomListener(document.getElementById("process"), 'click', () =>{
+			processFile();
+		});
+		google.maps.event.addDomListener(document.getElementById("polygon"), 'click', () =>{
+			//setTimeout(makePolygon(), 5000);
+			makePrimaryPolygon();
+			//showPaths(polyPath);
+			makeMarkers();
+			centerMap();
+			//makeClusterPolygon(0);
+		});
+		google.maps.event.addDomListener(document.getElementById("markerToggle"), 'click', () =>{
+			toggleMarkers();
+		});
+		
+		//legend for map
+		const legend = document.getElementById("legend");
+
+		for (const key in colors) {
+	    	const type = colors[key];
+	    	const name = "Cluster " + key;
+	   		const icon = colors[key];
+	    	const div = document.createElement("div");
+
+	    	div.innerHTML = '<img src="' + icon + '"> ' + name;
+	    	legend.appendChild(div);
+	  	}
+		map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(legend);
+		
+		
+	
+	}
+	
+	//remove labels from .csv file
+	function removeLabels(){
+		
+		myPolyLat.splice(0,1);
+		myPolyLng.splice(0,1);
+		markerLat.splice(0,1);
+		markerLng.splice(0,1);
+		cluster.splice(0,1);
+	}
+	function showPaths(path){
+		//for (let i=0;i<path.getLength();i++){
+			for (let i=0;i<path.length;i++){
+			console.log("test"+path[i]);
+		}
+		console.log("done");
+	}	
+		
+	
+
+	</script>
+	
+<meta charset="ISO-8859-1">
+<title>Polygons and Routing</title>
+</head>
+<body>
+<h1>Polygons with Clustered Routes</h1>
+	<hr>
+	<form action="/distance-matrix">
+			<button type="submit">To Home</button>
+	</form>
+	
+	<p>Upload or select <i>.csv</i> file</p>
+	<input id="myFile" type="file">
+		<button id="process">Process</button>
+		<div  class="xcel">
+		<table id="myTable" border=".5" bordercolor="#A9A9A9"></table>
+		<div id="dvCSV"></div>
+		</div>
+	
+	
+	<div>
+        <h2>My Map</h2>
+        <button id="polygon">Show Area Polygon</button>
+        <button id="markerToggle">Toggle Markers</button>
+        <hr>
+        	<div id="legend"><h2>Legend</h2></div>
+        	<div id="map"></div>
+        	
+        	<script async defer
+    			src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD390VrMYSzUckUBYiWeXy2ZvVDrNtWUPg&callback=initMap">
+			</script>
+			<!-- Script containing methods for building dynamic map on page. Should be moved to its own .js file once issues are resolved or testing is complete -->
+
+	</div>
+
+</body>
+</html>

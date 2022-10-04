@@ -165,7 +165,7 @@ public class Students {
     @NonNull private boolean isActive;
 
 
-    public void insertData() {
+    public void insertData(int id, int studId ) {
  
     }
 

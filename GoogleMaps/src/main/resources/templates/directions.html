@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+
+<script th:inline="javascript">
+
+function formatDirections(){
+var x = [[${query.getqDirections()}]];
+let newtext = x.replace(/\n/g, "<br>");
+document.getElementById("directions").innerHTML = newtext;
+}
+
+function loadPage(){
+formatDirections();
+}
+
+</script>
+<meta charset="ISO-8859-1">
+<title>Directions</title>
+</head>
+<body onLoad="javascript:loadPage();">
+		<!-- back button -->
+		<form action="/distance-matrix">
+			<button type="submit">Existing Queries</button>
+		</form>
+		
+		<h2>Directions</h2>
+		
+	<div>
+		<hr>
+		<p id="start"><strong style="font-size:20px">Starting from: </strong><span th:text="${query.getOrigin()}"></span></p>
+		<hr>
+		<p id="directions" >Directions Not Found</p>
+		<hr>
+		<p id="end"><strong style="font-size:20px">Arriving at: </strong><span th:text="${query.getDestination()}"></span></p>
+		<hr>
+	</div>
+	
+	
+	
+
+	
+</body>
+</html>
