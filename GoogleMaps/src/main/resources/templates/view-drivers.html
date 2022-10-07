@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang = "en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Showing PickupPoint Information</title>
+</head>
+<body>
+<div>
+<table>
+	<thead>
+		<tr>
+				<th>Id</th>
+				<th>Contractor ID</th>
+				<th>Name</th>
+				<th>Type</th>
+				<th>Approved</th>
+				<th>Validity</th>
+				<th>Address</th>
+				<th>City</th>
+				<th>State</th>
+				<th>DriverId</th>
+				<th>Cell Phone #</th>
+				<th>Medical Clear Date</th>
+				<th>Completed Driver License Date</th>
+				<th>Motor Vehicle Record Date</th>
+				<th>Application Date</th>
+				<th>Driver Photo Date</th>
+				<th>CPR First Aid Date</th>
+				<th>TB Test Date</th>
+				<th>I9 Date</th>
+				<th>Act 151 Date</th>
+				<th>Act 114 DAte</th>
+				<th>ProvEmp Check</th>
+				<th>Act34 State DAte</th>
+				<th>Active?</th>
+		</tr>
+		</thead>
+		<tbody>
+			 <tr th:each="school : ${schools}">
+			   <td th:text="${school.id}"></td>
+			   <td th:text="${school.schoolName}"></td>
+			   <td th:text="${school.type}"></td>
+			   <td th:text="${school.studentCount}"></td> 
+			   <td th:text="${school.schoolGrade}"></td> 
+			   <td th:text="${school.schoolDays}"></td> 
+			   <td th:text="${school.location.latitude}"></td> 
+			   <td th:text="${school.location.longitude}"></td> 
+		</tr>
+		</tbody>
+		</table>
+		</div>
+
+</body>
+</html>

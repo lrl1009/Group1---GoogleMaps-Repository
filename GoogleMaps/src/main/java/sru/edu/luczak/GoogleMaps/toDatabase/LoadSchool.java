@@ -14,7 +14,7 @@ import sru.edu.luczak.GoogleMaps.domain.LocationPoint;
 import sru.edu.luczak.GoogleMaps.domain.Schools;
 import sru.edu.luczak.GoogleMaps.repository.SchoolRepository;
 
-
+/*
 @Component
 public class LoadSchool implements CommandLineRunner {
 	
@@ -44,19 +44,34 @@ public class LoadSchool implements CommandLineRunner {
 	    	String city = row.getCell(8).getStringCellValue();
 	    	String state = row.getCell(9).getStringCellValue();
 	    	int zip = (int) row.getCell(10).getNumericCellValue();
-	    	int phone = (int) row.getCell(11).getNumericCellValue();
+	    	String phone = row.getCell(11).getStringCellValue();
 	    	int location_id = (int) row.getCell(12).getNumericCellValue();
 	    	boolean isActive = row.getCell(13).getBooleanCellValue();
 	    	
 	    	Schools schoolData = new Schools();
-	    	schoolData.insertData(id, schoolName, type, schoolGrade, studentCount, schoolDays, address, city, state, zip, phone, isActive);
-	    	
-	    	LocationPoint locationPoint = new LocationPoint();
-	    	locationPoint.setLatitude(30);
-	    	locationPoint.setLongitude(40);
-	    	locationPoint.setLocation_id(location_id);
-	    	schoolData.setLocation(locationPoint);
+	    	schoolData.insertTestData(id,  schoolName,  type,  schoolGrade,  studentCount, schoolDays,  address,  phone,  zip,  city,  state,  location_id,  isActive);
 	    	schoolRepo.save(schoolData);
+	    	
+	    	
+	    	/*
+	    	XSSFRow row = schoolSheet.getRow(x);
+	    	int id = (int) row.getCell(0).getNumericCellValue();
+	    	String schoolName = row.getCell(1).getStringCellValue();
+	    	String type = row.getCell(2).getStringCellValue();
+	    	String schoolGrade = row.getCell(3).getStringCellValue();
+	    	int studentCount = (int) row.getCell(4).getNumericCellValue();
+	    	int schoolDays = (int) row.getCell(5).getNumericCellValue();
+	    	String address = row.getCell(6).getStringCellValue();
+	    	String city = row.getCell(8).getStringCellValue();
+	    	String state = row.getCell(9).getStringCellValue();
+	    	int zip = (int) row.getCell(10).getNumericCellValue();
+	    	int phone = (int) row.getCell(11).getNumericCellValue();
+	    	int location_id = (int) row.getCell(12).getNumericCellValue();
+	    	boolean isActive = row.getCell(13).getBooleanCellValue();
+	    	*/
+/*
 	    }
+	    workbook.close();
 	}
 }
+*/
