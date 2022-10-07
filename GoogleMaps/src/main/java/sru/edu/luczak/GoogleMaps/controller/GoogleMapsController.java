@@ -74,5 +74,6 @@ public class GoogleMapsController {
 	        schoolRepository.save(school);
 	        return "redirect:index";
 	    }
+	    
 
 }

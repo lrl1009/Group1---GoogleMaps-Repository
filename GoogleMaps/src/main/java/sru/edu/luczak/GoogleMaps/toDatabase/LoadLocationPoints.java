@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import sru.edu.luczak.GoogleMaps.domain.LocationPoint;
 import sru.edu.luczak.GoogleMaps.domain.Schools;
 import sru.edu.luczak.GoogleMaps.repository.LocationPointRepository;
-
+/*
 @Component
 public class LoadLocationPoints implements CommandLineRunner{
 	
@@ -63,3 +63,4 @@ public class LoadLocationPoints implements CommandLineRunner{
 	}
 
 }
+*/

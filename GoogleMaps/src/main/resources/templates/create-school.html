@@ -43,13 +43,13 @@
     <td><span th:if="${#fields.hasErrors('schoolDays')}" th:errors="*{schoolDays}"></span></td>
 </tr>
 <tr>               
-    <td><label for="location.latitude">School Location: Latitude</label></td>
-    <td><input type="number" step="0.00000001" th:field="*{location.latitude}" id="location.latitude" placeholder="Latitude"></td>
+    <td><label for="location.latitude">Latitude:</label></td>
+    <td><input type="number" step="0.000000000000001" th:field="*{location.latitude}" id="location.latitude" placeholder="Latitude"></td>
     <td><span th:if="${#fields.hasErrors('location.latitude')}" th:errors="*{location.latitude}"></span></td>
 </tr>	
 <tr>               
-    <td><label for="location.longitude">School Location: Longitude</label></td>
-    <td><input type="number" step="0.00000001" th:field="*{location.longitude}" id="location.longitude" placeholder="Longitude"></td>
+    <td><label for="location.longitude">Longitude:</label></td>
+    <td><input type="number" step="0.000000000000001" th:field="*{location.longitude}" id="location.longitude"placeholder="Longitude"></td>
     <td><span th:if="${#fields.hasErrors('location.longitude')}" th:errors="*{location.longitude}"></span></td>
 </tr>	 
    </table>
@@ -72,6 +72,9 @@ function initMap(){
 	  google.maps.event.addListener(map, "click", (event) => {
 	    addMarker(event.latLng, map);
 	    document.getElementById("LatPos").textContent = event.latLng;
+	    document.getElementById("location.latitude").value = event.latLng.lat();
+	    document.getElementById("location.longitude").value = event.latLng.lng();
+
 	  });
 };
 	// Adds a marker to the map.
@@ -84,15 +87,15 @@ function initMap(){
 	    clickable: true,
 	  });
 	  
-	  //add listenders for click events
+	  //add listenders for click events on Marker
 	  marker.addListener("click", (e) => {
 		displayCoord(e.latLng);
 		highlightMarker(marker);
 		});
 	}
 	
-	function displayCoord(latLng){
-		document.getElementById("LatPos").textContent = latLng;
+	function displayCoord(latLng, lat, lng){
+		document.getElementById("LatPos").textContent = latLng;		
 	}
 </script>
 <h3> Marker Coordinates: </h3> 

@@ -6,7 +6,7 @@
 </head>
 <body>
 <div>
-<table>
+<table cellpadding="10">
 	<thead>
 		<tr>
 				<th>Id</th>
@@ -17,6 +17,10 @@
 				<th>School Days</th>
 				<th>Latitude</th>
 				<th>Longitude</th>
+				<th>Start Time</th>
+				<th>End Time</th>
+				<th>Start Date</th>
+				<th>End Date</th>
 		</tr>
 		</thead>
 		<tbody>
@@ -24,11 +28,19 @@
 			   <td th:text="${school.id}"></td>
 			   <td th:text="${school.schoolName}"></td>
 			   <td th:text="${school.type}"></td>
-			   <td th:text="${school.studentCount}"></td> 
+			   <td th:text="${school.studentCount}"></td>
 			   <td th:text="${school.schoolGrade}"></td> 
-			   <td th:text="${school.schoolDays}"></td> 
+			   <td th:text="${school.schoolDays}"></td>
 			   <td th:text="${school.location.latitude}"></td> 
-			   <td th:text="${school.location.longitude}"></td> 
+			   <td th:text="${school.location.longitude}"></td>
+			   <td th:text="${school.startHour}"></td>
+			   <td th:text="${school.startMin}"></td>
+			   <td th:text="${school.startAmPm}"></td>
+			   <td th:text="${school.endHour}"></td>
+			   <td th:text="${school.endMin}"></td>
+			   <td th:text="${school.endAmPm}"></td>
+			   <td th:text="${school.startDate}"></td>
+			   <td th:text="${school.endDate}"></td> 
 		</tr>
 		</tbody>
 		</table>
