@@ -3,21 +3,36 @@ package sru.edu.luczak.GoogleMaps.domain;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+
 import org.springframework.lang.NonNull;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 
 
 @Entity
 public class PickupDropoff {
 @Id
-@GeneratedValue(strategy = GenerationType.AUTO)
-private long schoolId;
+@GeneratedValue(strategy = GenerationType.IDENTITY)
+private int id;
+/*
+@NonNull
+private int schoolId;
+*/
 @NonNull
 private long studentId;
+
+
 @NonNull
 private long monPickupPointId;
 @NonNull
 private long monDropOffPointId;
+
+
 @NonNull
 private long tuePickupLocPointId;
 @NonNull
@@ -35,15 +50,30 @@ private long friPickupLocPointId;
 @NonNull
 private long friDropoffLocPointId;
 
+@OneToOne(cascade = CascadeType.ALL)
+@JoinColumn(name = "pickupPointId")
+private LocationPoint pickupLocation;
 
+@OneToOne(cascade = CascadeType.ALL)
+@JoinColumn(name = "dropOffPointId")
+private LocationPoint dropoffLocation;
+/*
+@ManyToOne
+@JoinColumn(name="schoolId")
+private Schools locInfo;
+*/
 
-public void insertData(long schoolId, long studentId, long monPickupPointId, long monDropOffPointId,
+@ManyToOne
+@JoinColumn(name="schoolId", referencedColumnName = "school_id")
+private Schools school;
+
+public void insertData(int id, int schoolId, long studentId, long monPickupPointId, long monDropOffPointId,
 		long tuePickupLocPointId, long tueDropoffLocPointId, long wedPickupLocPointId, int wedDropoffLocPointId,
 		long thurPickupLocPointId, long thurDropoffLocPointId, long friPickupLocPointId,
 		long friDropoffLocPointId) 
 		
 	{
-	  this.schoolId = schoolId;
+//	  this.schoolId = schoolId;
 	  this.studentId = studentId;
 	  this.monPickupPointId = monPickupPointId;
 	  this.monDropOffPointId = monDropOffPointId;
@@ -57,16 +87,45 @@ public void insertData(long schoolId, long studentId, long monPickupPointId, lon
 	  this.friDropoffLocPointId = friDropoffLocPointId;
 	}
 
+public void setSchool(Schools school)
+{
+	this.school = school;
+}
+
+public Schools getSchool()
+{
+	return school;
+}
+
+public void setPickupLocation(LocationPoint pickupLocation)
+{
+	this.pickupLocation = pickupLocation;
+}
+
+public LocationPoint getPickupLocation()
+{
+	return pickupLocation;
+}
+public void setDropoffLocation(LocationPoint dropoffLocation)
+{
+	this.dropoffLocation = dropoffLocation;
+}
+
+public LocationPoint getDropoffLocation()
+{
+	return dropoffLocation;
+}
 
 
 
-
-public long getSchoolId() {
+/*
+public int getSchoolId() {
 	return schoolId;
 }
-public void setSchoolId(long schoolId) {
+public void setSchoolId(int schoolId) {
 	this.schoolId = schoolId;
 }
+*/
 public long getStudentId() {
 	return studentId;
 }

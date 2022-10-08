@@ -1,7 +1,7 @@
 package sru.edu.luczak.GoogleMaps.repository;
 
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
+
 
 import sru.edu.luczak.GoogleMaps.domain.Schools;
 
@@ -14,4 +14,7 @@ import sru.edu.luczak.GoogleMaps.domain.Schools;
  * Extending the CrudRepository interface provides the application with basic CRUD functionality on User objects.
  */
 
-public interface SchoolRepository extends CrudRepository<Schools, Integer> {}
+public interface SchoolRepository extends JpaRepository<Schools, Integer> {
+	
+//	Schools findBySchoolId(int id);
+}

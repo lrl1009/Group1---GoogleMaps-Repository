@@ -4,10 +4,17 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import org.springframework.lang.NonNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -15,8 +22,8 @@ import javax.persistence.Entity;
 @Entity
  public class Schools {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int school_id;
 	@NonNull
 	private String schoolName;
 	@NonNull
@@ -58,15 +65,25 @@ import javax.persistence.Entity;
 	@OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "location_id", referencedColumnName = "location_id")
 	private LocationPoint location;
+	
 	@NonNull
 	private boolean isActive;
+/*	
+//	@OneToMany(cascade = CascadeType.ALL)
+//	@OneToMany(mappedBy = "locInfo")
+	@JsonIgnore
+	@OneToMany(mappedBy = "school")
+	private Set<PickupDropoff> pickupDropoff = new HashSet<>();
+*/	
 	
+	@OneToMany(cascade = CascadeType.ALL)
+	private Set<PickupDropoff> locInfo;
 
 	public void insertData(int id, String schoolName, String type, String schoolGrade, int studentCount,
 			int startHour, int startMin, String startAmPm, int endHour, int endMin, String endAmPm, 
 			int schoolDays, Date startDate, Date endDate, String phone, int zip, String city, String state, boolean isActive, String address) {
 		
-		this.id = id; 
+		this.school_id = id; 
 		this.schoolName = schoolName; 
 		this.type = type; 
 		this.schoolGrade = schoolGrade; 
@@ -87,7 +104,7 @@ import javax.persistence.Entity;
 		this.isActive = isActive;
 		this.address = address;
 	}
-	
+/*	
 	public void insertTestData(int id, String schoolName, String type, String schoolGrade, int studentCount,
 			int schoolDays, String address, String phone, int zip, String city, String state, int locationId, boolean isActive) {
 		
@@ -105,7 +122,16 @@ import javax.persistence.Entity;
 		this.address = address;
 //		this.location_Id = locationId;
 	}
+*/	
 	
+/*
+	public Set<PickupDropoff> getPickupDropoff() {
+		return pickupDropoff;
+	}
+	public void setPickupDropoff(Set<PickupDropoff> pickupDropoff) {
+		this.pickupDropoff = pickupDropoff;
+	}
+*/	
 	public void setLocation(LocationPoint location)
 	{
 		this.location = location;
@@ -117,10 +143,10 @@ import javax.persistence.Entity;
 	}
 
 		public int getId() {
-			return id; 
+			return school_id; 
 		}
 		public void setId(int id) {
-			this.id = id;
+			this.school_id = id;
 		}
 		public String getSchoolName() {
 			return schoolName;

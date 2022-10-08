@@ -34,8 +34,13 @@ public class LocationPoint {
 	private int routeId;
 	@NonNull
 	private boolean isActive;
+	
 	@OneToOne(mappedBy = "location")
     private Schools school;
+	@OneToOne(mappedBy = "pickupLocation")
+    private PickupDropoff pickup;
+	@OneToOne(mappedBy = "dropoffLocation")
+    private PickupDropoff dropoff;
 
 	public void insertData(int location_id, float latitude, float longitude, String locationPointName, String roadName,
 			float distCost, float timeCost, float cost, boolean mapped, int routeId, boolean isActive) {

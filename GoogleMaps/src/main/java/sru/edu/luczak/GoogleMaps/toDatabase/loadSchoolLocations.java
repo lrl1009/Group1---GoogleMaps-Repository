@@ -14,7 +14,7 @@ import sru.edu.luczak.GoogleMaps.domain.LocationPoint;
 import sru.edu.luczak.GoogleMaps.domain.Schools;
 import sru.edu.luczak.GoogleMaps.repository.LocationPointRepository;
 import sru.edu.luczak.GoogleMaps.repository.SchoolRepository;
-
+/*
 @Component
 public class loadSchoolLocations implements CommandLineRunner {
 	
@@ -67,11 +67,11 @@ public class loadSchoolLocations implements CommandLineRunner {
 	    	schoolData.insertData( id,  schoolName,  type,  schoolGrade,  studentCount, startHour,  startMin,  startAmPm,  endHour,  endMin,  endAmPm, 
 	    			 schoolDays,  startDate,  endDate,  phone, zip, city, state, isActive, address);
 	    	
+	    	
 	    	LocationPoint locationPoint = new LocationPoint();
 	    	locationPoint.setLatitude(latitude);
 	    	locationPoint.setLongitude(longitude);
 	    	locationPoint.setLocationPointName(address);
-//	    	locationPoint.setLocation_id(location_id);
 	    	schoolData.setLocation(locationPoint);
 	    	schoolRepo.save(schoolData);
 	    }
@@ -79,3 +79,4 @@ public class loadSchoolLocations implements CommandLineRunner {
 	}
 		
 }
+*/
