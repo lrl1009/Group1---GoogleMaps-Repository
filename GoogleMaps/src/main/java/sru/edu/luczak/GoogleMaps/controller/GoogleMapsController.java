@@ -75,5 +75,10 @@ public class GoogleMapsController {
 	        return "redirect:index";
 	    }
 	    
+	    @RequestMapping({"/selectSchool"})
+	    public String selectSchool(Model model) {
+	    	model.addAttribute("schools", schoolRepository.findAll());
+	    	return "select-school";
+	    }
 
 }

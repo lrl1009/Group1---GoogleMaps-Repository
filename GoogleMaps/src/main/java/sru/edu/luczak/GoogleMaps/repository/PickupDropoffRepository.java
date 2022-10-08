@@ -13,4 +13,4 @@ import sru.edu.luczak.GoogleMaps.domain.PickupDropoff;
  * Extending the CrudRepository interface provides the application with basic CRUD functionality on User objects.
  */
 
-public interface PickupDropoffRepository extends JpaRepository<PickupDropoff, Long> {}
+public interface PickupDropoffRepository extends JpaRepository<PickupDropoff, Integer> {}

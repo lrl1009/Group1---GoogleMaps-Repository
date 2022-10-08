@@ -1,11 +1,52 @@
-<!Doctype html>
-<html xmlns:th="http://ww.thymeleaf.org">
+<!DOCTYPE html>
+<html lang = "en" xmlns:th="http://www.thymeleaf.org">
 <head>
-	<meta charset="UTF-8">
-	<title>Selecting School District Data</title>
+<meta charset="ISO-8859-1">
+<title>Showing PickupPoint Information</title>
 </head>
 <body>
-<p><a href = "/loadLocation">Click to View Pickup Points</a></p>
-</body>
+<div>
+<table cellpadding="10">
+	<thead>
+		<tr>
+				<th>Id</th>
+				<th>Name</th>
+				<th>Type</th>
+				<th>Number of Students</th>
+				<th>Grade</th>
+				<th>School Days</th>
+				<th>Latitude</th>
+				<th>Longitude</th>
+				<th>Start Time</th>
+				<th>End Time</th>
+				<th>Start Date</th>
+				<th>End Date</th>
+		</tr>
+		</thead>
+		<tbody>
+			 <tr th:each="school : ${schools}">
+			   <td th:text="${school.id}"></td>
+			   <td th:text="${school.schoolName}"></td>
+			   <td th:text="${school.type}"></td>
+			   <td th:text="${school.studentCount}"></td>
+			   <td th:text="${school.schoolGrade}"></td> 
+			   <td th:text="${school.schoolDays}"></td>
+			   <td th:text="${school.location.latitude}"></td> 
+			   <td th:text="${school.location.longitude}"></td>
+			   <td th:text="${school.startHour}"></td>
+			   <td th:text="${school.startMin}"></td>
+			   <td th:text="${school.startAmPm}"></td>
+			   <td th:text="${school.endHour}"></td>
+			   <td th:text="${school.endMin}"></td>
+			   <td th:text="${school.endAmPm}"></td>
+			   <td th:text="${school.startDate}"></td>
+			   <td th:text="${school.endDate}"></td> 
+			   
+			   <td><a th:href="@{/createPickup/{id}(id=${locationpoint.location_id})}">Create Pickup/DropOff Points</a></td>
+		</tr>
+		</tbody>
+		</table>
+		</div>
 
+</body>
 </html>
